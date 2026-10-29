@@ -810,6 +810,15 @@ textarea#voiceText{
     </div>
   </div>
   <div class="topbar-right">
+    <!-- STUDENT PROFILE SWITCHER (PHONG & TRA) -->
+    <div class="student-profile-bar" style="display:inline-flex; align-items:center; background:#ffffff; border:2px solid var(--neo-black); border-radius:8px; padding:2px; box-shadow:2px 2px 0 var(--neo-black); margin-right:8px;">
+      <button id="btnProfilePhong" class="neo-btn btn-sm btn-primary" onclick="switchStudentProfile('thanh_phong')" style="padding:4px 10px; font-size:0.75rem; border:none; box-shadow:none; font-weight:800;">
+        🚀 Thanh Phong (Lớp 7)
+      </button>
+      <button id="btnProfileTra" class="neo-btn btn-sm" onclick="switchStudentProfile('thanh_tra')" style="padding:4px 10px; font-size:0.75rem; border:none; box-shadow:none; background:transparent; color:#64748b; font-weight:800;">
+        🌸 Thanh Trà (Lớp 4)
+      </button>
+    </div>
     <select id="gradeSelector" onchange="switchGrade(this.value)" title="Chọn lớp">
       <option value="lop4">📚 Lớp 4</option>
       <option value="lop5">📚 Lớp 5</option>
@@ -846,6 +855,18 @@ textarea#voiceText{
       <button class="tab-btn" onclick="switchTab('practice')" id="tab-practice">⚔️ Luyện Tập</button>
       <button class="tab-btn" onclick="switchTab('progress')" id="tab-progress">📊 Hành Trình</button>
       <button class="tab-btn" onclick="switchTab('parent')" id="tab-parent">👨‍👩‍👦 Đồng Hành</button>
+      <div style="margin-left:auto; display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+        <button class="neo-btn btn-sm" onclick="exportDiscoveryJournal()" id="btnExportJournalTop" style="background:#f0fdf4; color:#065f46; border:2px solid #059669; font-weight:800; padding:6px 12px; font-size:0.75rem;" title="Xuất toàn bộ tiến trình ra file HTML lưu trữ vĩnh cửu">
+          📖 Xuất Sổ Tay HTML
+        </button>
+        <button class="neo-btn btn-sm" onclick="exportLedgerJSON()" id="btnExportJsonTop" style="background:#eff6ff; color:#1d4ed8; border:2px solid #2563eb; font-weight:800; padding:6px 10px; font-size:0.75rem;" title="Sao lưu toàn bộ Sổ Cái tiến trình ra file JSON">
+          📥 Lưu JSON
+        </button>
+        <button class="neo-btn btn-sm" onclick="document.getElementById('importLedgerInputTop').click()" id="btnImportJsonTop" style="background:#fefce8; color:#854d0e; border:2px solid #ca8a04; font-weight:800; padding:6px 10px; font-size:0.75rem;" title="Nạp Sổ Cái từ file JSON đã sao lưu">
+          📤 Nạp JSON
+        </button>
+        <input type="file" id="importLedgerInputTop" accept=".json" style="display:none;" onchange="importLedgerJSON(event)">
+      </div>
     </div>
 
     <!-- MAP TAB -->
@@ -935,6 +956,12 @@ textarea#voiceText{
                     <div id="challengeGuideText" style="font-size:0.82rem; color:#64748b; font-style:italic;">
                       ...
                     </div>
+                    <!-- INTERACTIVE CHALLENGE INPUT ROW (GIAI ĐOẠN 3) -->
+                    <div id="challengeActionInputRow" style="display:flex; gap:8px; align-items:center; margin-top:10px; flex-wrap:wrap;">
+                      <input type="number" id="inputChallengeVal" class="neo-input" placeholder="Gõ kết quả thử thách con tìm được..." style="width:230px; padding:6px 12px; font-size:0.85rem; border:2px solid var(--neo-black); border-radius:6px;" onkeydown="if(event.key==='Enter') checkMicroChallenge(parseFloat(this.value))">
+                      <button class="neo-btn btn-sm btn-primary" onclick="checkMicroChallenge(parseFloat(document.getElementById('inputChallengeVal').value))">✨ Kiểm Tra Đáp Án</button>
+                      <span id="challengeFeedbackHint" style="font-size:0.82rem; font-weight:800;"></span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1001,6 +1028,69 @@ textarea#voiceText{
             <!-- GEOGEBRA CONTAINER -->
             <div id="geogebraContainer" style="display:none; margin-bottom:16px; border:var(--border); border-radius:var(--radius); box-shadow:var(--shadow-md); overflow:hidden; background:#ffffff;">
               <div id="ggbAppletTarget" style="min-height:460px; width:100%;"></div>
+            
+            <!-- BẢNG HÀNG VÀ LỚP TƯƠNG TÁC (CHUYÊN BIỆT LỚP 4 — GIAI ĐOẠN 3) -->
+            <div id="placeValueChartContainer" style="margin-top:16px; background:#f8fafc; border:2px solid var(--neo-black); border-radius:8px; padding:14px; box-shadow:var(--shadow-sm);">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+                <div style="display:flex; align-items:center; gap:6px;">
+                  <span style="font-size:1.2rem;">🏛️</span>
+                  <strong style="font-size:0.92rem; color:#0f172a;">BẢNG HÀNG VÀ LỚP TƯƠNG TÁC (3 LỚP — 9 HÀNG)</strong>
+                </div>
+                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                  <button class="neo-btn btn-sm" onclick="setPlaceValueSample(149597876)" style="font-size:0.72rem; padding:3px 8px;">🌍 149.597.876</button>
+                  <button class="neo-btn btn-sm" onclick="setPlaceValueSample(226372)" style="font-size:0.72rem; padding:3px 8px;">🏙️ 226.372</button>
+                  <button class="neo-btn btn-sm" onclick="setPlaceValueSample(1000000)" style="font-size:0.72rem; padding:3px 8px;">⭐ 1.000.000</button>
+                  <button class="neo-btn btn-sm" onclick="setPlaceValueSample(42530)" style="font-size:0.72rem; padding:3px 8px;">🌸 42.530</button>
+                </div>
+              </div>
+              
+              <div style="display:flex; gap:8px; margin-bottom:10px;">
+                <input type="text" id="inputPlaceValueNum" class="neo-input" placeholder="Gõ một số tự nhiên (ví dụ: 42530 hoặc 149597876)..." style="flex:1; padding:7px 12px; font-size:0.88rem; font-weight:700;" oninput="updatePlaceValueChart(this.value)">
+                <button class="neo-btn btn-sm btn-primary" onclick="applyPlaceValueToChallenge()">🎯 Nạp Vào Thử Thách</button>
+              </div>
+
+              <div style="overflow-x:auto;">
+                <table style="width:100%; min-width:540px; border-collapse:collapse; text-align:center; font-size:0.78rem; background:#ffffff; border:2px solid var(--neo-black);">
+                  <thead>
+                    <tr style="color:#ffffff; font-weight:800;">
+                      <th colspan="3" style="border:1px solid var(--neo-black); padding:6px; background:#ec4899;">LỚP TRIỆU</th>
+                      <th colspan="3" style="border:1px solid var(--neo-black); padding:6px; background:#f59e0b;">LỚP NGHÌN</th>
+                      <th colspan="3" style="border:1px solid var(--neo-black); padding:6px; background:#3b82f6;">LỚP ĐƠN VỊ</th>
+                    </tr>
+                    <tr style="background:#f1f5f9; font-weight:700; color:#334155; font-size:0.72rem;">
+                      <th style="border:1px solid #cbd5e1; padding:5px; width:11.1%;">Trăm triệu</th>
+                      <th style="border:1px solid #cbd5e1; padding:5px; width:11.1%;">Chục triệu</th>
+                      <th style="border:1px solid #cbd5e1; padding:5px; width:11.1%;">Triệu</th>
+                      <th style="border:1px solid #cbd5e1; padding:5px; width:11.1%;">Trăm nghìn</th>
+                      <th style="border:1px solid #cbd5e1; padding:5px; width:11.1%;">Chục nghìn</th>
+                      <th style="border:1px solid #cbd5e1; padding:5px; width:11.1%;">Nghìn</th>
+                      <th style="border:1px solid #cbd5e1; padding:5px; width:11.1%;">Trăm</th>
+                      <th style="border:1px solid #cbd5e1; padding:5px; width:11.1%;">Chục</th>
+                      <th style="border:1px solid #cbd5e1; padding:5px; width:11.1%;">Đơn vị</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style="font-family:var(--font-mono); font-size:1.2rem; font-weight:900;">
+                      <td id="pv_hm" style="border:1px solid #cbd5e1; padding:8px; color:#be185d;">-</td>
+                      <td id="pv_tm" style="border:1px solid #cbd5e1; padding:8px; color:#be185d;">-</td>
+                      <td id="pv_m"  style="border:1px solid #cbd5e1; padding:8px; color:#be185d;">-</td>
+                      <td id="pv_hth" style="border:1px solid #cbd5e1; padding:8px; color:#b45309;">-</td>
+                      <td id="pv_tth" style="border:1px solid #cbd5e1; padding:8px; color:#b45309;">-</td>
+                      <td id="pv_th"  style="border:1px solid #cbd5e1; padding:8px; color:#b45309;">-</td>
+                      <td id="pv_h"   style="border:1px solid #cbd5e1; padding:8px; color:#1d4ed8;">-</td>
+                      <td id="pv_t"   style="border:1px solid #cbd5e1; padding:8px; color:#1d4ed8;">-</td>
+                      <td id="pv_u"   style="border:1px solid #cbd5e1; padding:8px; color:#1d4ed8;">-</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div style="margin-top:10px; font-size:0.83rem; background:#ffffff; border:1px solid #cbd5e1; border-radius:6px; padding:10px; display:flex; flex-direction:column; gap:6px;">
+                <div><strong>📖 Lời đọc số:</strong> <span id="pvWordsOutput" style="color:#0f172a; font-weight:700;">Chưa nhập số</span></div>
+                <div><strong>🔢 Cấu tạo số dạng tổng:</strong> <span id="pvExpandedOutput" style="color:#2563eb; font-family:var(--font-mono); font-size:0.8rem;">-</span></div>
+                <div><strong>⚖️ Tính chất số:</strong> <span id="pvParityOutput" style="font-weight:700; color:#10b981;">-</span></div>
+              </div>
+            </div>
             </div>
             
             <div class="canvas-wrapper" id="canvasWrapperBox">
@@ -1200,6 +1290,25 @@ textarea#voiceText{
           <button class="neo-btn btn-purple" onclick="parentUnlock()">⚡ Đặc Cách Mở Ải Tiếp</button>
         </div>
       </div>
+      <!-- MULTI-STUDENT LEDGER & PERSISTENCE SECTION -->
+      <div class="parent-section" style="background:#f8fafc; border:2px solid var(--neo-black); border-radius:var(--radius); padding:16px; margin-bottom:16px;">
+        <h3 style="margin-top:0; font-size:1.05rem; font-weight:900;">💾 Cơ Sở Dữ Liệu Học Tập & Đồng Bộ Sổ Cái (Phong & Trà)</h3>
+        <p style="font-size:0.85rem; color:#475569; line-height:1.6; margin-bottom:14px;">
+          Toàn bộ tác phẩm hình vẽ, tọa độ SVG, bài thu âm và điểm số được lưu trữ vĩnh viễn trên máy tính. Bố có thể xuất Sổ Tay Khám Phá thành file HTML độc lập để in ấn hoặc sao lưu ra tệp JSON trao đổi liên thiết bị.
+        </p>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+          <button class="neo-btn btn-green" onclick="exportDiscoveryJournal()" style="font-size:0.85rem;">
+            📖 Xuất Sổ Tay Khám Phá HTML (Của <span class="active-student-lbl">Thanh Phong</span>)
+          </button>
+          <button class="neo-btn btn-sm" onclick="exportLedgerJSON()">
+            📥 Sao Lưu Ra Sổ Cái JSON
+          </button>
+          <label class="neo-btn btn-sm" style="cursor:pointer; display:inline-flex; align-items:center; margin:0;">
+            📤 Nạp Từ Sổ Cái JSON <input type="file" id="ledgerFileInput" accept=".json" onchange="importLedgerJSON(event)" style="display:none;">
+          </label>
+        </div>
+      </div>
+
       <div class="parent-section">
         <h3>📝 Nhật Ký Đồng Hành</h3>
         <div style="display:flex;gap:8px;margin-bottom:12px">
@@ -1215,7 +1324,7 @@ textarea#voiceText{
           <li>Con thấy <strong>sự kiện</strong> đó kết nối với điều gì con đã biết?</li>
           <li><strong>Tại sao</strong> quy tắc này lại đúng? Có thể giải thích bằng hình vẽ không?</li>
           <li>Nếu đổi điều này thành [X], <strong>điều gì sẽ xảy ra</strong>?</li>
-          <li>Con có thể giải thích cho một em lớp 3 <strong>bằng ngôn ngữ đơn giản nhất</strong> không?</li>
+          <li>Con có thể giải thích cho một em lớp 4 <strong>bằng ngôn ngữ đơn giản nhất</strong> không?</li>
           <li>Bước nào khó nhất? <strong>Con đã thử cách nào</strong> chưa?</li>
           <li><strong>Giả thiết</strong> nào con đang dùng trong bài toán này?</li>
           <li>Con có thể vẽ sơ đồ <strong>nhân-quả</strong> của bài học không?</li>
@@ -1366,7 +1475,8 @@ textarea#voiceText{
 // COURSES DATABASE — Full SGK Lớp 4–9 (Kết Nối Tri Thức)
 // ============================================================
 const GRADE_REGISTRY = {
-  lop4: { label: "Lớp 4", status: "coming_soon", courses: [] },
+  lop3: { label: "Lớp 3", status: "coming_soon", courses: [] },
+  lop4: { label: "Lớp 4 — Bé Thanh Trà", status: "active", courses: ["toan4t1", "tiengviet4t1", "tienganh4t1", "lichdia4", "khoahoc4"] },
   lop5: { label: "Lớp 5", status: "coming_soon", courses: [] },
   lop6: { label: "Lớp 6", status: "coming_soon", courses: [] },
   lop7: { label: "Lớp 7", status: "active", courses: [
@@ -1378,6 +1488,829 @@ const GRADE_REGISTRY = {
 };
 
 const COURSES_DB = {
+    // ─── PHÂN HỆ LỚP 4: BÉ PHẠM BẢO TRÀ (THANH TRÀ) ──────────────────────
+  toan4t1: {
+    id: "toan4t1", grade: "lop4",
+    icon: "📐", color: "#ec4899",
+    title: "Toán 4 — Tập 1",
+    desc: "Số Có Nhiều Chữ Số, 4 Phép Tính, Góc & Đơn Vị Đo, Đường Vuông Góc & Song Song (37 Bài KNTT — Bé Trà)",
+    quests: [
+      {
+            "id": "toan4t1_q1",
+            "num": 1,
+            "chapter_id": "ch1",
+            "chapter_title": "Chủ đề 1: Ôn Tập và Bổ Sung",
+            "lesson": "Bài 1",
+            "page": "tr.6–8",
+            "title": "Ôn Tập Các Số Đến 100.000 & Bậc Thang Số Học",
+            "xp": 100,
+            "diff": "Nhận Biết",
+            "tool_type": "svg_number_line",
+            "is_geogebra": false,
+            "dr_stone_mission": "Chào mừng Bé Bảo Trà đến với Học Viện Tự Học Lớp 4! Cùng Bố Tuyển và anh Phong ôn tập các số đến 100.000 bằng cách phân tích cấu tạo số: chục nghìn, nghìn, trăm, chục, đơn vị để gieo mầm trí tuệ!",
+            "station1_van": "<div style='background:#fef3c7;border-left:4px solid #d97706;padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:0.9rem;'><strong>💡 NGUYÊN LÝ LƯỢNG GLENN DOMAN:</strong><br>Mỗi con số là sự tích lũy của các lượng thực tế: 10 đơn vị = 1 chục; 10 chục = 1 trăm; 10 trăm = 1 nghìn; 10 nghìn = 1 chục nghìn; 10 chục nghìn = 1 trăm nghìn (100.000).</div>\n<strong>📌 Cấu tạo số có năm chữ số:</strong><br>\n• Số gồm 5 chữ số có các hàng từ phải sang trái: Đơn vị, Chục, Trăm, Nghìn, Chục nghìn.<br>\n• Ví dụ: Số <strong>36.515</strong> gồm 3 chục nghìn, 6 nghìn, 5 trăm, 1 chục và 5 đơn vị.<br>\n• Viết thành tổng: 36.515 = 30.000 + 6.000 + 500 + 10 + 5.<br><br>\n<strong>🌸 Khám phá thực tế (tr.7):</strong><br>\nSố dân của một xã là 12.967 người. Làm tròn đến hàng nghìn sẽ được 13.000 người (vì chữ số hàng trăm là 9 ≥ 5).",
+            "station2_tu": "Vẽ sơ đồ bảng hàng phân tích số <strong>42.530</strong> trên Canvas Studio:<br>1. Kẻ 5 cột: Chục nghìn (4) - Nghìn (2) - Trăm (5) - Chục (3) - Đơn vị (0).<br>2. Viết dạng tổng: 42.530 = 40.000 + 2.000 + 500 + 30.<br>3. Đánh dấu mốc 40.000 và 50.000 trên trục số SVG!",
+            "station3_tu": "1. Tại sao khi số 12.967 làm tròn đến hàng nghìn lại thành 13.000 mà không phải 12.000? Con hãy giải thích quy tắc làm tròn số cho Bố nghe nhé!\n2. Số liền trước và số liền sau của 99.999 là những số nào?",
+            "key_concepts": [
+                  "chục nghìn",
+                  "hàng và lớp",
+                  "phân tích số",
+                  "làm tròn số",
+                  "số liền trước",
+                  "số liền sau"
+            ],
+            "causality_anchors": [
+                  "vì",
+                  "nên",
+                  "do đó",
+                  "lớn hơn",
+                  "suy ra"
+            ],
+            "metaphors": [
+                  "bậc thang số học",
+                  "ngôi nhà 5 gian",
+                  "hạt giống số học"
+            ],
+            "anchor": "SGK Toán 4 Tập 1 KNTT, tr.6–8"
+      },
+      {
+            "id": "toan4t1_q2",
+            "num": 2,
+            "chapter_id": "ch1",
+            "chapter_title": "Chủ đề 1: Ôn Tập và Bổ Sung",
+            "lesson": "Bài 2",
+            "page": "tr.9–11",
+            "title": "4 Phép Tính Trong Phạm Vi 100.000 & Ngăn Kéo Sắp Xếp",
+            "xp": 100,
+            "diff": "Thông Hiểu",
+            "tool_type": "canvas_grid",
+            "is_geogebra": false,
+            "dr_stone_mission": "Thử thách tính nhanh cùng Bé Trà: Đặt tính rồi tính cộng, trừ, nhân, chia trong phạm vi 100.000 để chuẩn bị vật tư xây dựng thư viện gia đình!",
+            "station1_van": "<div style='background:#fef3c7;border-left:4px solid #d97706;padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:0.9rem;'><strong>💡 NGUYÊN LÝ LƯỢNG GLENN DOMAN:</strong><br>Cộng trừ là gộp và bớt đại lượng theo từng hàng tương ứng; nhân chia là nhân bản hoặc phân chia đều số lượng.</div>\n<strong>📌 Quy tắc tính toán:</strong><br>\n• Đặt tính thẳng cột: hàng đơn vị thẳng đơn vị, chục thẳng chục, trăm thẳng trăm...<br>\n• Thực hiện phép tính từ phải sang trái.<br>• Chú ý các lượt cộng/nhân có nhớ và trừ/chia có mượn.<br><br>\n<strong>🌸 Ví dụ thực tế:</strong><br>Một cửa hàng nhập về 25.000 cuốn sách, đợt sau nhập thêm 18.500 cuốn. Tổng số sách là: 25.000 + 18.500 = 43.500 cuốn.",
+            "station2_tu": "Vẽ đặt tính phép cộng <strong>35.240 + 28.195</strong> và phép nhân <strong>14.205 x 3</strong> trên Canvas ô ly:<br>• Đặt thẳng hàng từng chữ số.<br>• Dùng bút màu khác đánh dấu điểm nhớ để không bị quên!",
+            "station3_tu": "1. Khi thực hiện phép cộng hoặc phép nhân có nhớ, tại sao con phải nhớ sang hàng bên cạnh bên trái?\n2. Muốn kiểm tra lại kết quả của phép trừ, con làm cách nào?",
+            "key_concepts": [
+                  "đặt tính thẳng cột",
+                  "phép cộng có nhớ",
+                  "phép trừ có mượn",
+                  "phép nhân",
+                  "phép chia"
+            ],
+            "causality_anchors": [
+                  "vì",
+                  "nên",
+                  "thẳng hàng",
+                  "nhớ sang",
+                  "do đó"
+            ],
+            "metaphors": [
+                  "ngăn kéo đồ dùng",
+                  "dòng chảy số lượng"
+            ],
+            "anchor": "SGK Toán 4 Tập 1 KNTT, tr.9–11"
+      },
+      {
+            "id": "toan4t1_q3",
+            "num": 3,
+            "chapter_id": "ch1",
+            "chapter_title": "Chủ đề 1: Ôn Tập và Bổ Sung",
+            "lesson": "Bài 3",
+            "page": "tr.12–14",
+            "title": "Số Chẵn, Số Lẻ & Dãy Số Nhà Trên Phố",
+            "xp": 100,
+            "diff": "Nhận Biết",
+            "tool_type": "canvas_grid",
+            "is_geogebra": false,
+            "dr_stone_mission": "Bé Trà đi dạo trên con phố kỳ diệu: Một bên đường là các ngôi nhà số chẵn (10, 12, 14, 16...), bên kia là các ngôi nhà số lẻ (11, 13, 15, 17...). Khám phá quy luật phân chia của bác đưa thư!",
+            "station1_van": "<div style='background:#fef3c7;border-left:4px solid #d97706;padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:0.9rem;'><strong>💡 NGUYÊN LÝ LƯỢNG GLENN DOMAN:</strong><br>Số chẵn là số lượng có thể ghép thành từng đôi hoàn hảo không thừa; số lẻ khi ghép đôi luôn dư ra đúng 1 đơn vị.</div>\n<strong>📌 Dấu hiệu nhận biết:</strong><br>\n• <strong>Số chẵn:</strong> Các số có chữ số tận cùng là <strong>0, 2, 4, 6, 8</strong> (chia hết cho 2).<br>\n• <strong>Số lẻ:</strong> Các số có chữ số tận cùng là <strong>1, 3, 5, 7, 9</strong> (không chia hết cho 2).<br><br>\n<strong>🏘️ Khám phá thực tế phố xá (tr.12):</strong><br>\nĐể dễ tìm số nhà, người ta dùng số chẵn ở một bên dãy phố, bên còn lại dùng số lẻ. Hai số chẵn (hoặc lẻ) liên tiếp hơn kém nhau 2 đơn vị.",
+            "station2_tu": "Vẽ mô phỏng 'Con Đường Số Học' trên Canvas:<br>1. Vẽ trục đường ở giữa.<br>2. Bên trái vẽ 5 ngôi nhà số chẵn: 20, 22, 24, 26, 28.<br>3. Bên phải vẽ 5 ngôi nhà số lẻ: 21, 23, 25, 27, 29.<br>4. Tô màu vàng cho số chẵn, màu hồng cho số lẻ!",
+            "station3_tu": "1. Vì sao chỉ cần nhìn vào chữ số tận cùng là con biết ngay một số là số chẵn hay số lẻ mà không cần chia cho 2?\n2. Khi cộng hai số lẻ với nhau (ví dụ 3 + 5), kết quả là số chẵn hay số lẻ? Tại sao lại như vậy?",
+            "key_concepts": [
+                  "số chẵn",
+                  "số lẻ",
+                  "chữ số tận cùng",
+                  "chia hết cho 2",
+                  "ghép đôi"
+            ],
+            "causality_anchors": [
+                  "bởi vì",
+                  "chia hết",
+                  "dư 1",
+                  "kết quả là",
+                  "cho nên"
+            ],
+            "metaphors": [
+                  "đôi bạn song hành",
+                  "dãy nhà trên phố",
+                  "đôi tất gắp cặp"
+            ],
+            "anchor": "SGK Toán 4 Tập 1 KNTT, tr.12–14"
+      },
+      {
+            "id": "toan4t1_q4",
+            "num": 4,
+            "chapter_id": "ch1",
+            "chapter_title": "Chủ đề 1: Ôn Tập và Bổ Sung",
+            "lesson": "Bài 4",
+            "page": "tr.15–17",
+            "title": "Biểu Thức Chứa Chữ & Chiếc Thuyền Giấy Của Mai",
+            "xp": 120,
+            "diff": "Thông Hiểu",
+            "tool_type": "canvas_grid",
+            "is_geogebra": false,
+            "dr_stone_mission": "Khám phá chiếc hộp toán học biến hóa: Nam gấp được 2 cái thuyền, Mai gấp được 'a' cái thuyền. Chiếc hộp '2 + a' có thể cho ra vô số kết quả kỳ diệu!",
+            "station1_van": "<div style='background:#fef3c7;border-left:4px solid #d97706;padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:0.9rem;'><strong>💡 NGUYÊN LÝ LƯỢNG GLENN DOMAN:</strong><br>Chữ cái đại diện cho một đại lượng chưa xác định hoặc có thể thay đổi. Mỗi khi gán một giá trị cụ thể cho chữ, ta nhận được một lượng thực tế tương ứng.</div>\n<strong>📌 Khái niệm cốt lõi:</strong><br>\n• <strong>Biểu thức chứa một chữ:</strong> Ví dụ: 2 + a, 40 - b, c x 5, 24 : d.<br>\n• <strong>Giá trị của biểu thức:</strong> Mỗi lần thay chữ bằng số, ta tính được một giá trị của biểu thức đó.<br>• Ví dụ: Nếu a = 3 thì giá trị của 2 + a là 2 + 3 = 5.",
+            "station2_tu": "Vẽ 'Chiếc Cối Xay Biến Hóa Số' trên Canvas:<br>1. Vẽ biểu thức <strong>a + 15</strong> ở trung tâm.<br>2. Vẽ 3 nhánh đầu vào: a = 5 (ra 20), a = 10 (ra 25), a = 20 (ra 35).<br>3. Ghi rõ: Thay chữ bằng số nào thì tính ra kết quả đó!",
+            "station3_tu": "1. Biểu thức chứa chữ khác gì so với biểu thức chỉ toàn số bình thường?\n2. Nếu chu vi hình vuông là P = a x 4, khi độ dài cạnh a = 6 cm thì chu vi chiếc khăn tay là bao nhiêu?",
+            "key_concepts": [
+                  "biểu thức chứa chữ",
+                  "giá trị của biểu thức",
+                  "thay chữ bằng số",
+                  "đại lượng biến thiên"
+            ],
+            "causality_anchors": [
+                  "nếu",
+                  "thì",
+                  "thay vào",
+                  "do đó",
+                  "kết quả là"
+            ],
+            "metaphors": [
+                  "chiếc hộp biến hóa",
+                  "thuyền giấy chở số",
+                  "khuôn đúc bánh quy"
+            ],
+            "anchor": "SGK Toán 4 Tập 1 KNTT, tr.15–17"
+      },
+      {
+            "id": "toan4t1_q5",
+            "num": 5,
+            "chapter_id": "ch1",
+            "chapter_title": "Chủ đề 1: Ôn Tập và Bổ Sung",
+            "lesson": "Bài 5 & 6",
+            "page": "tr.18–23",
+            "title": "Giải Bài Toán Ba Bước Tính & Trồng Cây Gây Rừng",
+            "xp": 120,
+            "diff": "Vận Dụng",
+            "tool_type": "canvas_grid",
+            "is_geogebra": false,
+            "dr_stone_mission": "Chiến dịch phủ xanh đồi trọc: Đội Một trồng 60 cây, Đội Hai hơn Đội Một 20 cây, Đội Ba ít hơn Đội Hai 10 cây. Bé Trà lập kế hoạch 3 bước để tìm tổng số cây xanh!",
+            "station1_van": "<div style='background:#fef3c7;border-left:4px solid #d97706;padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:0.9rem;'><strong>💡 NGUYÊN LÝ LƯỢNG GLENN DOMAN:</strong><br>Bài toán nhiều bước tính là chuỗi dây chuyền nhân quả: Muốn biết đích đến cuối cùng, ta phải giải mã từng mắt xích trung gian phía trước.</div>\n<strong>📌 3 Bước Giải Bài Toán:</strong><br>\n• <strong>Bước 1 (Mắt xích 1):</strong> Tìm số cây Đội Hai = 60 + 20 = 80 (cây).<br>\n• <strong>Bước 2 (Mắt xích 2):</strong> Tìm số cây Đội Ba = 80 - 10 = 70 (cây).<br>\n• <strong>Bước 3 (Đích đến):</strong> Tìm tổng số cây cả 3 đội = 60 + 80 + 70 = 210 (cây).",
+            "station2_tu": "Vẽ sơ đồ đoạn thẳng 3 nhánh trên Canvas Studio:<br>• Nhánh Đội 1: vẽ đoạn thẳng biểu diễn 60 cây.<br>• Nhánh Đội 2: vẽ đoạn thẳng dài hơn một đoạn 20 cây.<br>• Nhánh Đội 3: vẽ đoạn thẳng ngắn hơn Đội 2 là 10 cây.<br>• Dấu móc gộp cả 3 đoạn thẳng và dấu hỏi chấm (?) cây!",
+            "station3_tu": "1. Tại sao con không thể tính ngay tổng số cây của cả ba đội ở bước đầu tiên?\n2. Sơ đồ đoạn thẳng đã giúp con nhìn thấy mắt xích nào trước mắt xích nào như thế nào?",
+            "key_concepts": [
+                  "bài toán ba bước tính",
+                  "mắt xích trung gian",
+                  "sơ đồ đoạn thẳng",
+                  "kế hoạch giải"
+            ],
+            "causality_anchors": [
+                  "trước tiên",
+                  "sau đó",
+                  "cuối cùng",
+                  "vì chưa biết",
+                  "nên phải tìm"
+            ],
+            "metaphors": [
+                  "chuỗi dây chuyền",
+                  "bậc thang leo núi",
+                  "rừng cây xanh mát"
+            ],
+            "anchor": "SGK Toán 4 Tập 1 KNTT, tr.18–23"
+      },
+      {
+            "id": "toan4t1_q6",
+            "num": 6,
+            "chapter_id": "ch2",
+            "chapter_title": "Chủ đề 2: Góc và Đơn Vị Đo Góc",
+            "lesson": "Bài 7 & 8",
+            "page": "tr.24–28",
+            "title": "Khám Phá Góc: Góc Nhọn, Góc Vuông, Góc Tù, Góc Bẹt",
+            "xp": 150,
+            "diff": "Vận Dụng",
+            "tool_type": "geogebra",
+            "is_geogebra": true,
+            "dr_stone_mission": "Bé Trà trở thành Kiến Trúc Sư Tí Hon: Dùng thước ê-ke và thước đo góc để phân loại các góc trên mái nhà, kim đồng hồ và góc mở của cánh cửa!",
+            "station1_van": "<div style='background:#fef3c7;border-left:4px solid #d97706;padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:0.9rem;'><strong>💡 NGUYÊN LÝ LƯỢNG GLENN DOMAN:</strong><br>Góc là độ mở giữa hai tia cùng chung gốc. Độ mở càng lớn thì số đo độ (° - độ) càng lớn. Chuẩn so sánh gốc là Góc Vuông (90°).</div>\n<strong>📌 4 Loại Góc Cơ Bản:</strong><br>\n• <strong>Góc Vuông:</strong> Bằng 90° (khớp chính xác với góc ê-ke).<br>\n• <strong>Góc Nhọn:</strong> Bé hơn góc vuông (0° < góc nhọn < 90°).<br>\n• <strong>Góc Tù:</strong> Lớn hơn góc vuông và bé hơn góc bẹt (90° < góc tù < 180°).<br>\n• <strong>Góc Bẹt:</strong> Bằng 2 góc vuông (180°, hai cạnh tạo thành đường thẳng).<br><br>\n<strong>⏰ Ứng dụng kim đồng hồ:</strong><br>\n• Lúc 3 giờ đúng: Hai kim tạo thành Góc Vuông (90°).<br>\n• Lúc 2 giờ đúng: Hai kim tạo thành Góc Nhọn (60°).<br>\n• Lúc 4 giờ đúng: Hai kim tạo thành Góc Tù (120°).<br>\n• Lúc 6 giờ đúng: Hai kim tạo thành Góc Bẹt (180°).",
+            "station2_tu": "Sử dụng GeoGebra Applet hoặc Canvas Studio:<br>1. Đo và vẽ 4 góc: Vuông (90°), Nhọn (45°), Tù (120°), Bẹt (180°).<br>2. Vẽ chiếc đồng hồ chỉ 3 giờ (góc vuông) và chỉ 6 giờ (góc bẹt).<br>3. Ghi nhãn đỉnh và hai cạnh của góc!",
+            "station3_tu": "1. Tại sao chiếc ê-ke lại là công cụ quan trọng nhất để nhận biết góc nhọn và góc tù?\n2. Khi mở một chiếc quạt giấy, quạt xòe ra những góc nào từ lúc đóng đến lúc mở thẳng tắp?",
+            "key_concepts": [
+                  "góc vuông 90°",
+                  "góc nhọn",
+                  "góc tù",
+                  "góc bẹt 180°",
+                  "thước đo góc",
+                  "ê-ke",
+                  "độ mở"
+            ],
+            "causality_anchors": [
+                  "nhỏ hơn",
+                  "lớn hơn",
+                  "vì",
+                  "nên",
+                  "bằng hai góc vuông"
+            ],
+            "metaphors": [
+                  "chiếc quạt xòe",
+                  "kim đồng hồ tích tắc",
+                  "góc mái nhà"
+            ],
+            "anchor": "SGK Toán 4 Tập 1 KNTT, tr.24–28"
+      },
+      {
+            "id": "toan4t1_q7",
+            "num": 7,
+            "chapter_id": "ch2",
+            "chapter_title": "Chủ đề 2: Góc và Đơn Vị Đo Góc",
+            "lesson": "Bài 9",
+            "page": "tr.29–31",
+            "title": "Luyện Tập Chung Góc: Kim Đồng Hồ & Mái Nhà Cổ Kính",
+            "xp": 100,
+            "diff": "Thông Hiểu",
+            "tool_type": "geogebra",
+            "is_geogebra": true,
+            "dr_stone_mission": "Khảo sát kiến trúc chùa Một Cột và Tháp Rùa: Quan sát góc đỡ của các cột gỗ lim và độ dốc của mái ngói cong để tìm ra các góc nhọn và góc tù hài hòa!",
+            "station1_van": "<div style='background:#fef3c7;border-left:4px solid #d97706;padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:0.9rem;'><strong>💡 NGUYÊN LÝ LƯỢNG GLENN DOMAN:</strong><br>Hình học không nằm trên giấy mà nằm trong sự cân bằng của vạn vật: Góc vuông nâng đỡ tòa nhà, góc tù xòe rộng che mưa nắng.</div>\n<strong>📌 Kỹ năng đo góc chính xác:</strong><br>\n• Đặt tâm của thước đo góc trùng với đỉnh của góc.<br>\n• Một cạnh của góc đi qua vạch 0° của thước.<br>• Cạnh còn lại đi qua vạch nào thì đó chính là số đo độ của góc.",
+            "station2_tu": "Vẽ hình mái nhà cổ kính trên Canvas Studio:<br>1. Hai mái nghiêng tạo thành một Góc Tù ở đỉnh nóc nhà (khoảng 130°).<br>2. Mái hiên và cột nhà tạo thành một Góc Vuông (90°).<br>3. Kèo đỡ chéo tạo thành Góc Nhọn (45°).",
+            "station3_tu": "1. Tại sao mái nhà của người xưa không làm thành góc bẹt (180°) mà lại làm thành góc tù hoặc dốc nhọn?\n2. Khi kim đồng hồ quay từ 12 giờ đến 6 giờ, góc giữa hai kim biến đổi như thế nào?",
+            "key_concepts": [
+                  "tâm thước đo",
+                  "vạch 0 độ",
+                  "độ dốc mái nhà",
+                  "góc đỡ kiến trúc"
+            ],
+            "causality_anchors": [
+                  "để thoát nước",
+                  "vì",
+                  "nhờ đó",
+                  "tăng dần",
+                  "do vậy"
+            ],
+            "metaphors": [
+                  "mái ngói rêu phong",
+                  "kim la bàn",
+                  "cây nẹp chống bão"
+            ],
+            "anchor": "SGK Toán 4 Tập 1 KNTT, tr.29–31"
+      },
+      {
+            "id": "toan4t1_q8",
+            "num": 8,
+            "chapter_id": "ch3",
+            "chapter_title": "Chủ đề 3: Số Có Nhiều Chữ Số",
+            "lesson": "Bài 10 & 11",
+            "page": "tr.32–37",
+            "title": "Hàng và Lớp: Khám Phá Triệu và Lớp Triệu",
+            "xp": 150,
+            "diff": "Thông Hiểu",
+            "tool_type": "svg_number_line",
+            "is_geogebra": false,
+            "dr_stone_mission": "Thám hiểm vũ trụ số học khổng lồ: Vượt qua lớp đơn vị và lớp nghìn để mở cánh cổng Lớp Triệu (1.000.000 - một triệu ngôi sao)!",
+            "station1_van": "<div style='background:#fef3c7;border-left:4px solid #d97706;padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:0.9rem;'><strong>💡 NGUYÊN LÝ LƯỢNG GLENN DOMAN:</strong><br>Để kiểm soát số lượng khổng lồ không bị rối loạn, loài người gom 3 hàng liên tiếp từ phải sang trái thành 1 LỚP.</div>\n<strong>📌 Quy tắc Hàng và Lớp:</strong><br>\n• <strong>Lớp Đơn Vị:</strong> gồm Hàng đơn vị, Hàng chục, Hàng trăm.<br>\n• <strong>Lớp Nghìn:</strong> gồm Hàng nghìn, Hàng chục nghìn, Hàng trăm nghìn.<br>\n• <strong>Lớp Triệu:</strong> gồm Hàng triệu, Hàng chục triệu, Hàng trăm triệu.<br>\n• Cách đọc: Đọc từ trái sang phải, đọc số trong từng lớp kèm theo tên lớp (trừ lớp đơn vị).",
+            "station2_tu": "Vẽ 'Bảng Ngân Hà Hàng và Lớp' trên Canvas Studio:<br>1. Phân chia 3 Lớp lớn: Lớp Triệu | Lớp Nghìn | Lớp Đơn Vị.<br>2. Điền số <strong>125.380.000</strong> vào đúng các hàng.<br>3. Viết lời đọc chính xác của con số này!",
+            "station3_tu": "1. Tại sao khi viết các số có nhiều chữ số (như 1 000 000), người ta lại để một khoảng trống nhỏ giữa các lớp 3 chữ số?\n2. Một triệu gấp bao nhiêu lần một nghìn?",
+            "key_concepts": [
+                  "lớp triệu",
+                  "lớp nghìn",
+                  "lớp đơn vị",
+                  "hàng trăm nghìn",
+                  "hàng triệu",
+                  "khoảng cách lớp"
+            ],
+            "causality_anchors": [
+                  "bởi vì",
+                  "nên",
+                  "gom nhóm",
+                  "gấp 1000 lần"
+            ],
+            "metaphors": [
+                  "ngôi nhà 3 tầng",
+                  "chùm sao thiên hà",
+                  "ngăn kéo phân loại"
+            ],
+            "anchor": "SGK Toán 4 Tập 1 KNTT, tr.32–37"
+      },
+      {
+            "id": "toan4t1_q9",
+            "num": 9,
+            "chapter_id": "ch3",
+            "chapter_title": "Chủ đề 3: Số Có Nhiều Chữ Số",
+            "lesson": "Bài 12 & 13",
+            "page": "tr.38–43",
+            "title": "Số Trong Phạm Vi Lớp Triệu & Nghệ Thuật Làm Tròn Số",
+            "xp": 120,
+            "diff": "Vận Dụng",
+            "tool_type": "svg_number_line",
+            "is_geogebra": false,
+            "dr_stone_mission": "Đo đạc khoảng cách giữa các hành tinh: Khoảng cách từ Trái Đất đến Mặt Trời là 149.597.876 km! Bé Trà hãy làm tròn số này để dễ ghi nhớ trong nhật ký vũ trụ!",
+            "station1_van": "<div style='background:#fef3c7;border-left:4px solid #d97706;padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:0.9rem;'><strong>💡 NGUYÊN LÝ LƯỢNG GLENN DOMAN:</strong><br>Làm tròn số là tìm số tròn chục, tròn trăm, tròn triệu gần nhất với đại lượng thực để truyền thông tin nhanh gọn.</div>\n<strong>📌 Quy tắc làm tròn số:</strong><br>\n• Nếu chữ số ngay sau hàng làm tròn bé hơn 5 (0, 1, 2, 3, 4) ➔ Giữ nguyên chữ số hàng làm tròn.<br>\n• Nếu chữ số ngay sau hàng làm tròn từ 5 trở lên (5, 6, 7, 8, 9) ➔ Tăng chữ số hàng làm tròn thêm 1 đơn vị.<br>• Thay tất cả các chữ số phía sau bằng các chữ số 0.",
+            "station2_tu": "Vẽ trục số làm tròn khoảng cách Trái Đất - Mặt Trời (149.597.876 km) trên Canvas:<br>1. Đánh dấu mốc 149.000.000 km và 150.000.000 km.<br>2. Chấm điểm 149.597.876 km nằm rất gần mốc 150.000.000 km.<br>3. Kết luận: Làm tròn đến hàng triệu được khoảng 150 triệu km!",
+            "station3_tu": "1. Vì sao trong đời sống hàng ngày người ta thường nói 'khoảng 150 triệu km' thay vì đọc chính xác 149.597.876 km?\n2. Khi mua sắm ở siêu thị, làm tròn số tiền giúp mẹ tính nhẩm nhanh như thế nào?",
+            "key_concepts": [
+                  "lớp triệu",
+                  "làm tròn số",
+                  "chữ số hàng sau",
+                  "khoảng cách thiên văn"
+            ],
+            "causality_anchors": [
+                  "gần hơn",
+                  "từ 5 trở lên",
+                  "vì vậy",
+                  "làm tròn thành"
+            ],
+            "metaphors": [
+                  "nam châm hút số tròn",
+                  "con tàu không gian",
+                  "chiếc kính thiên văn"
+            ],
+            "anchor": "SGK Toán 4 Tập 1 KNTT, tr.38–43"
+      },
+      {
+            "id": "toan4t1_q10",
+            "num": 10,
+            "chapter_id": "ch3",
+            "chapter_title": "Chủ đề 3: Số Có Nhiều Chữ Số",
+            "lesson": "Bài 14 & 15",
+            "page": "tr.44–48",
+            "title": "So Sánh Số Nhiều Chữ Số & Dãy Số Tự Nhiên Bất Tận",
+            "xp": 120,
+            "diff": "Thông Hiểu",
+            "tool_type": "svg_number_line",
+            "is_geogebra": false,
+            "dr_stone_mission": "So sánh cự ly thám hiểm: Sao Hỏa cách Mặt Trời khoảng 230.000.000 km, Sao Kim cách khoảng 108.000.000 km. Khám phá bí mật dãy số tự nhiên bắt đầu từ số 0 kéo dài mãi mãi!",
+            "station1_van": "<div style='background:#fef3c7;border-left:4px solid #d97706;padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:0.9rem;'><strong>💡 NGUYÊN LÝ LƯỢNG GLENN DOMAN:</strong><br>Dãy số tự nhiên là dòng sông vô tận: Không có số tự nhiên lớn nhất, chỉ cần cộng thêm 1 ta luôn tìm được số liền sau lớn hơn.</div>\n<strong>📌 2 Quy tắc so sánh số có nhiều chữ số:</strong><br>\n• <strong>Quy tắc 1:</strong> Số nào có nhiều chữ số hơn thì lớn hơn.<br>\n• <strong>Quy tắc 2:</strong> Nếu hai số có cùng số chữ số, ta so sánh từng cặp chữ số ở cùng một hàng từ trái sang phải.<br><br>\n<strong>🪐 Ví dụ thiên văn:</strong><br>230.000.000 và 108.000.000 đều có 9 chữ số. Hàng trăm triệu: 2 > 1 ➔ 230.000.000 > 108.000.000 (Sao Hỏa xa hơn).",
+            "station2_tu": "Biểu diễn dãy số tự nhiên trên tia số SVG:<br>1. Vẽ tia số với gốc O mang số 0.<br>2. Đánh dấu các bước nhảy đều đặn: 0, 1, 2, 3, 4, 5...<br>3. Vẽ mũi tên ở đầu tia số và chú thích: Không có điểm dừng cuối cùng!",
+            "station3_tu": "1. Số 0 có phải là số tự nhiên không? Số tự nhiên bé nhất là số nào?\n2. Có số tự nhiên nào lớn nhất trên đời không? Nếu anh Phong nói có, con sẽ phản biện như thế nào?",
+            "key_concepts": [
+                  "so sánh số lớn",
+                  "cùng số chữ số",
+                  "tia số tự nhiên",
+                  "số 0",
+                  "không có số lớn nhất"
+            ],
+            "causality_anchors": [
+                  "vì hàng trăm triệu lớn hơn",
+                  "cộng thêm 1",
+                  "kéo dài mãi",
+                  "do đó"
+            ],
+            "metaphors": [
+                  "dòng sông vô tận",
+                  "chuyến bay vượt thời không",
+                  "bước chân vô tận"
+            ],
+            "anchor": "SGK Toán 4 Tập 1 KNTT, tr.44–48"
+      },
+      {
+            "id": "toan4t1_q11",
+            "num": 11,
+            "chapter_id": "ch3",
+            "chapter_title": "Chủ đề 3: Số Có Nhiều Chữ Số",
+            "lesson": "Bài 16",
+            "page": "tr.49–51",
+            "title": "Luyện Tập Chung: Bức Tranh Toàn Cảnh Thế Giới Số Lớn",
+            "xp": 100,
+            "diff": "Vận Dụng",
+            "tool_type": "canvas_grid",
+            "is_geogebra": false,
+            "dr_stone_mission": "Đại hội tổng kết Tri Thức Số Lớn: Bé Trà cùng anh Phong giải mã mật thư kho báu gồm các con số hàng triệu, hàng trăm nghìn được sắp xếp theo trật tự hoàn hảo!",
+            "station1_van": "<div style='background:#fef3c7;border-left:4px solid #d97706;padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:0.9rem;'><strong>💡 NGUYÊN LÝ LƯỢNG GLENN DOMAN:</strong><br>Sức mạnh của trí tuệ là khả năng nhìn thấy bức tranh tổng thể: từ đơn vị nhỏ bé đến hàng trăm triệu vĩ đại.</div>\n<strong>📌 3 Trụ Cột Thành Thạo:</strong><br>\n• Đọc và viết số đúng theo cấu trúc 3 lớp (Đơn vị, Nghìn, Triệu).<br>\n• So sánh và xếp thứ tự từ bé đến lớn hoặc từ lớn đến bé.<br>• Phân tích số thành tổng các hàng: a x 100.000 + b x 10.000...",
+            "station2_tu": "Vẽ 'Kim Tự Tháp Lớp Số' trên Canvas Studio:<br>• Đáy tháp: Lớp Đơn Vị (3 hàng).<br>• Tầng giữa: Lớp Nghìn (3 hàng).<br>• Đỉnh tháp: Lớp Triệu (3 hàng).<br>• Viết một con số 9 chữ số mà con yêu thích nhất!",
+            "station3_tu": "1. Khi viết một con số có 7 chữ số, con số đó đã bước vào lớp nào rồi?\n2. Làm thế nào để không bao giờ đọc nhầm giữa hàng nghìn và hàng chục nghìn?",
+            "key_concepts": [
+                  "kim tự tháp số",
+                  "tổng các hàng",
+                  "thứ tự số",
+                  "luyện tập tổng hợp"
+            ],
+            "causality_anchors": [
+                  "nhờ đó",
+                  "tổng hợp lại",
+                  "bước vào lớp triệu",
+                  "chính xác"
+            ],
+            "metaphors": [
+                  "kim tự tháp trí tuệ",
+                  "mật thư kho báu"
+            ],
+            "anchor": "SGK Toán 4 Tập 1 KNTT, tr.49–51"
+      },
+      {
+            "id": "toan4t1_q12",
+            "num": 12,
+            "chapter_id": "ch4",
+            "chapter_title": "Chủ đề 4: Một Số Đơn Vị Đo Đại Lượng",
+            "lesson": "Bài 17",
+            "page": "tr.52–55",
+            "title": "Cân Đo Đại Lượng: Yến, Tạ, Tấn & Chú Cá Voi Xanh",
+            "xp": 120,
+            "diff": "Nhận Biết",
+            "tool_type": "canvas_grid",
+            "is_geogebra": false,
+            "dr_stone_mission": "Thám hiểm đại dương bao la: Gặp gỡ chú Cá Voi Xanh khổng lồ nặng tới 190 tấn! Bé Trà hãy cùng chuyển đổi các đơn vị đo khối lượng yến, tạ, tấn để hiểu sức nặng kỳ diệu của sinh vật này!",
+            "station1_van": "<div style='background:#fef3c7;border-left:4px solid #d97706;padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:0.9rem;'><strong>💡 NGUYÊN LÝ LƯỢNG GLENN DOMAN:</strong><br>Khi vật quá nặng, đơn vị ki-lô-gam (kg) trở nên quá nhỏ bé. Loài người phát minh ra Yến (10kg), Tạ (100kg), Tấn (1000kg) để kiểm soát trọng lượng lớn.</div>\n<strong>📌 Bảng Đơn Vị Khối Lượng:</strong><br>\n• <strong>1 yến = 10 kg</strong> (1 bao gạo to).<br>\n• <strong>1 tạ = 10 yến = 100 kg</strong> (1 tạ thóc).<br>\n• <strong>1 tấn = 10 tạ = 1.000 kg</strong> (khối lượng ô tô, xe tải, cá voi).<br><br>\n<strong>🐋 Sự thật kỳ thú (tr.52):</strong><br>Cá voi xanh nặng 190 tấn tương đương với 190.000 kg (nặng bằng khoảng 3.000 người lớn cộng lại)!",
+            "station2_tu": "Vẽ 'Bậc Thang Cân Nặng' trên Canvas Studio:<br>1. Vẽ 4 bậc thang đi lên: kg ➔ yến (x10) ➔ tạ (x10) ➔ tấn (x10).<br>2. Vẽ chú cá voi xanh ở bậc cao nhất ghi nhãn 190 tấn = 190.000 kg.<br>3. Vẽ bao gạo 1 yến = 10 kg ở bậc đầu tiên!",
+            "station3_tu": "1. Một con voi nặng 3 tấn thì nặng gấp bao nhiêu lần một bao thóc nặng 1 tạ?\n2. Khi xe tải chở nông sản đi qua trạm cân, tại sao bảng điện tử lại hiện đơn vị 'tấn' thay vì 'kg'?",
+            "key_concepts": [
+                  "yến 10kg",
+                  "tạ 100kg",
+                  "tấn 1000kg",
+                  "đổi đơn vị khối lượng",
+                  "cá voi xanh"
+            ],
+            "causality_anchors": [
+                  "gấp 10 lần",
+                  "bằng 1000kg",
+                  "vì quá nặng",
+                  "nên dùng đơn vị tấn"
+            ],
+            "metaphors": [
+                  "bậc thang cân nặng",
+                  "chú cá voi khổng lồ",
+                  "chuyến xe nông sản"
+            ],
+            "anchor": "SGK Toán 4 Tập 1 KNTT, tr.52–55"
+      },
+      {
+            "id": "toan4t1_q13",
+            "num": 13,
+            "chapter_id": "ch4",
+            "chapter_title": "Chủ đề 4: Một Số Đơn Vị Đo Đại Lượng",
+            "lesson": "Bài 18",
+            "page": "tr.56–60",
+            "title": "Diện Tích Không Gian: dm², m², mm² & Ngôi Nhà Đồ Chơi",
+            "xp": 150,
+            "diff": "Vận Dụng",
+            "tool_type": "canvas_grid",
+            "is_geogebra": false,
+            "dr_stone_mission": "Bé Trà thiết kế sàn nhà cho ngôi nhà búp bê: Dùng 100 ô vuông nhỏ cạnh 1 cm để lát kín sàn. Khám phá mối quan hệ thần kỳ giữa xăng-ti-mét vuông (cm²), đề-xi-mét vuông (dm²) và mét vuông (m²)!",
+            "station1_van": "<div style='background:#fef3c7;border-left:4px solid #d97706;padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:0.9rem;'><strong>💡 NGUYÊN LÝ LƯỢNG GLENN DOMAN:</strong><br>Diện tích là số lượng các ô vuông đơn vị phủ kín bề mặt. Khi cạnh dài gấp 10 lần thì diện tích mặt phẳng bùng nổ gấp 100 lần (10 x 10).</div>\n<strong>📌 Bảng Đổi Đơn Vị Diện Tích:</strong><br>\n• <strong>1 dm² = 100 cm²</strong> (hình vuông cạnh 1 dm gồm 100 ô 1 cm²).<br>\n• <strong>1 m² = 100 dm² = 10.000 cm²</strong> (diện tích chiếc bàn học lớn).<br>\n• <strong>1 cm² = 100 mm²</strong> (diện tích đo các chi tiết tí hon).<br>• Mỗi đơn vị diện tích liền kề gấp hoặc kém nhau <strong>100 lần</strong>.",
+            "station2_tu": "Vẽ lưới ô vuông 10x10 trên Canvas Studio:<br>1. Mỗi ô nhỏ là 1 cm².<br>2. Cả khối vuông lớn gồm 10 hàng x 10 cột = 100 ô nhỏ = 1 dm².<br>3. Chú thích rõ ràng: 1 dm² = 100 cm² để khắc sâu nguyên lý diện tích!",
+            "station3_tu": "1. Tại sao 1 dm dài gấp 10 lần 1 cm, nhưng 1 dm² lại gấp tới 100 lần 1 cm²?\n2. Khi thợ xây lát gạch nền nhà, vì sao họ phải tính theo đơn vị mét vuông (m²)?",
+            "key_concepts": [
+                  "đề-xi-mét vuông",
+                  "mét vuông",
+                  "mi-li-mét vuông",
+                  "gấp 100 lần",
+                  "lưới ô vuông diện tích"
+            ],
+            "causality_anchors": [
+                  "vì nhân đôi chiều",
+                  "10 nhân 10 bằng 100",
+                  "nên gấp 100 lần",
+                  "do đó"
+            ],
+            "metaphors": [
+                  "tấm thảm ghép ô",
+                  "sàn nhà đồ chơi",
+                  "tờ giấy kẻ caro"
+            ],
+            "anchor": "SGK Toán 4 Tập 1 KNTT, tr.56–60"
+      },
+      {
+            "id": "toan4t1_q14",
+            "num": 14,
+            "chapter_id": "ch4",
+            "chapter_title": "Chủ đề 4: Một Số Đơn Vị Đo Đại Lượng",
+            "lesson": "Bài 19–21",
+            "page": "tr.61–67",
+            "title": "Dòng Chảy Thời Gian: Giây, Thế Kỉ & Lịch Sử Thăng Long",
+            "xp": 120,
+            "diff": "Thông Hiểu",
+            "tool_type": "svg_number_line",
+            "is_geogebra": false,
+            "dr_stone_mission": "Du hành qua các thế kỉ: Kim giây chạy 1 tiếng tíc tắc trôi qua 1 giây; một que diêm cháy 10 giây; cụ Rùa sống được 1 thế kỉ (100 năm). Khám phá năm 1010 Vua Lý Thái Tổ dời đô về Thăng Long thuộc thế kỉ nào!",
+            "station1_van": "<div style='background:#fef3c7;border-left:4px solid #d97706;padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:0.9rem;'><strong>💡 NGUYÊN LÝ LƯỢNG GLENN DOMAN:</strong><br>Thời gian là dòng chảy một chiều không quay lại: Giây đo khoảnh khắc chớp mắt, Thế kỉ đo bước chuyển mình của lịch sử ngàn năm.</div>\n<strong>📌 Đơn Vị Đo Thời Gian:</strong><br>\n• <strong>1 phút = 60 giây</strong>.<br>\n• <strong>1 giờ = 60 phút = 3.600 giây</strong>.<br>\n• <strong>1 thế kỉ = 100 năm</strong>.<br><br>\n<strong>📜 Xác định thế kỉ lịch sử (tr.62):</strong><br>\n• Từ năm 1 đến năm 100 là Thế kỉ I (thế kỉ thứ nhất).<br>\n• Từ năm 101 đến năm 200 là Thế kỉ II.<br>\n• Năm 1010: Vua Lý Thái Tổ dời đô về Thăng Long thuộc <strong>Thế kỉ XI</strong>.<br>\n• Năm 2026 hiện tại: Thuộc <strong>Thế kỉ XXI</strong> (từ năm 2001 đến năm 2100).",
+            "station2_tu": "Vẽ 'Dòng Sông Thế Kỉ Lịch Sử' trên Canvas Studio:<br>1. Vẽ trục thời gian từ năm 1 đến năm 2100.<br>2. Đánh dấu mốc Năm 1010 (Định đô Thăng Long - Thế kỉ XI).<br>3. Đánh dấu mốc Năm 1945 (Bác Hồ đọc Tuyên ngôn Độc lập - Thế kỉ XX).<br>4. Đánh dấu mốc Năm 2026 hiện tại (Thế kỉ XXI)!",
+            "station3_tu": "1. Năm 2000 là năm cuối cùng của thế kỉ XX hay là năm đầu tiên của thế kỉ XXI? Tại sao?\n2. Một vận động viên điền kinh chạy 100m mất khoảng 10 giây. Nếu tính bằng phút thì khoảng thời gian đó nhanh đến mức nào?",
+            "key_concepts": [
+                  "giây",
+                  "thế kỉ 100 năm",
+                  "chữ số La Mã",
+                  "xác định thế kỉ",
+                  "dời đô Thăng Long"
+            ],
+            "causality_anchors": [
+                  "vì từ năm 101 đến 200",
+                  "nên thuộc thế kỉ",
+                  "trôi qua 100 năm"
+            ],
+            "metaphors": [
+                  "dòng sông lịch sử",
+                  "tiếng tích tắc đồng hồ",
+                  "chứng nhân ngàn năm"
+            ],
+            "anchor": "SGK Toán 4 Tập 1 KNTT, tr.61–67"
+      },
+      {
+            "id": "toan4t1_q15",
+            "num": 15,
+            "chapter_id": "ch5",
+            "chapter_title": "Chủ đề 5: Phép Cộng và Phép Trừ",
+            "lesson": "Bài 22 & 23",
+            "page": "tr.68–74",
+            "title": "Phép Cộng & Trừ Số Có Nhiều Chữ Số & Cột Mốc Ngân Sách",
+            "xp": 120,
+            "diff": "Vận Dụng",
+            "tool_type": "canvas_grid",
+            "is_geogebra": false,
+            "dr_stone_mission": "Quản lý ngân sách công trình: Tính toán chi phí xây dựng cây cầu vượt sông với các con số hàng triệu đồng. Thực hiện phép cộng trừ thẳng hàng chuẩn xác 100%!",
+            "station1_van": "<div style='background:#fef3c7;border-left:4px solid #d97706;padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:0.9rem;'><strong>💡 NGUYÊN LÝ LƯỢNG GLENN DOMAN:</strong><br>Dù số có lớn đến hàng triệu, nguyên tắc cộng trừ vẫn không đổi: Mỗi hàng chỉ giao tiếp với đúng hàng ngang cấp với nó.</div>\n<strong>📌 2 Bước Bất Biến:</strong><br>\n• <strong>Đặt tính:</strong> Viết số hạng này dưới số hạng kia sao cho các chữ số ở cùng một hàng thẳng cột với nhau.<br>\n• <strong>Tính toán:</strong> Cộng hoặc trừ theo thứ tự từ phải sang trái.<br>• Nếu phép cộng có nhớ, cộng thêm số nhớ vào hàng bên trái liền kề; nếu phép trừ có mượn, mượn 1 ở hàng bên trái liền kề.",
+            "station2_tu": "Vẽ đặt tính phép tính <strong>452.380 + 269.415</strong> trên Canvas Studio:<br>• Dùng các đường kẻ dọc nối thẳng cột từng hàng: đơn vị, chục, trăm, nghìn, chục nghìn, trăm nghìn.<br>• Ghi rõ các điểm nhớ (+1) nhỏ xinh màu đỏ!",
+            "station3_tu": "1. Nếu con đặt tính lệch cột (ví dụ hàng chục thẳng hàng trăm), kết quả phép tính sẽ sai lầm nghiêm trọng như thế nào?\n2. Khi trừ qua số 0 (ví dụ 1.000.000 - 345.000), con mượn liên tiếp qua các hàng như thế nào để không bị nhầm?",
+            "key_concepts": [
+                  "cộng trừ số lớn",
+                  "thẳng cột tuyệt đối",
+                  "nhớ và mượn",
+                  "thứ tự phải sang trái"
+            ],
+            "causality_anchors": [
+                  "vì lệch hàng",
+                  "nên sai giá trị",
+                  "mượn 1 sang",
+                  "do đó"
+            ],
+            "metaphors": [
+                  "ngăn kéo phân cấp",
+                  "cột trụ cầu vững chãi"
+            ],
+            "anchor": "SGK Toán 4 Tập 1 KNTT, tr.68–74"
+      },
+      {
+            "id": "toan4t1_q16",
+            "num": 16,
+            "chapter_id": "ch5",
+            "chapter_title": "Chủ đề 5: Phép Cộng và Phép Trừ",
+            "lesson": "Bài 24",
+            "page": "tr.75–77",
+            "title": "Tính Chất Giao Hoán & Kết Hợp: Đổi Chỗ Thông Minh",
+            "xp": 120,
+            "diff": "Thông Hiểu",
+            "tool_type": "canvas_grid",
+            "is_geogebra": false,
+            "dr_stone_mission": "Mua sắm thông minh tại quầy bánh ngọt: Mua nước cam 20.000đ và bánh 15.000đ. Đổi chỗ thứ tự tính toán thế nào để cộng nhẩm ra kết quả tròn trăm, tròn nghìn nhanh nhất!",
+            "station1_van": "<div style='background:#fef3c7;border-left:4px solid #d97706;padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:0.9rem;'><strong>💡 NGUYÊN LÝ LƯỢNG GLENN DOMAN:</strong><br>Tổng lượng của một vật thể không phụ thuộc vào thứ tự ta gom các phần của nó lại với nhau.</div>\n<strong>📌 2 Tính Chất Kỳ Diệu Của Phép Cộng:</strong><br>\n• <strong>Tính chất giao hoán:</strong> Khi đổi chỗ các số hạng trong một tổng thì tổng không thay đổi: <strong>a + b = b + a</strong>.<br>\n• <strong>Tính chất kết hợp:</strong> Khi cộng một tổng hai số với số thứ ba, ta có thể cộng số thứ nhất với tổng của số thứ hai và số thứ ba: <strong>(a + b) + c = a + (b + c)</strong>.<br><br>\n<strong>💡 Nghệ thuật tính nhanh:</strong><br>125 + 380 + 75 = (125 + 75) + 380 = 200 + 380 = 580 (nhóm các số tròn trăm với nhau).",
+            "station2_tu": "Vẽ sơ đồ 'Chiếc Cân Giao Hoán' trên Canvas Studio:<br>• Đĩa cân trái: Đặt hộp (15.000 + 20.000).<br>• Đĩa cân phải: Đặt hộp (20.000 + 15.000).<br>• Kim cân chỉ thẳng đứng ở giữa: Cả hai bên đều bằng 35.000 đồng!",
+            "station3_tu": "1. Tại sao phép cộng và phép nhân có tính chất giao hoán, nhưng phép trừ và phép chia lại tuyệt đối KHÔNG có tính chất này?\n2. Khi tính tổng: 46 + 17 + 54, con sẽ nhóm hai số nào với nhau trước để tính nhẩm siêu tốc?",
+            "key_concepts": [
+                  "tính chất giao hoán",
+                  "tính chất kết hợp",
+                  "a + b = b + a",
+                  "nhóm số tròn chục tròn trăm",
+                  "tính nhanh"
+            ],
+            "causality_anchors": [
+                  "vì đổi chỗ không đổi tổng",
+                  "nhóm lại tròn trăm",
+                  "nên tính nhanh hơn"
+            ],
+            "metaphors": [
+                  "chiếc cân thăng bằng",
+                  "đôi bạn đổi chỗ ngồi",
+                  "nam châm gom nhóm"
+            ],
+            "anchor": "SGK Toán 4 Tập 1 KNTT, tr.75–77"
+      },
+      {
+            "id": "toan4t1_q17",
+            "num": 17,
+            "chapter_id": "ch5",
+            "chapter_title": "Chủ đề 5: Phép Cộng và Phép Trừ",
+            "lesson": "Bài 25 & 26",
+            "page": "tr.78–84",
+            "title": "Tìm Hai Số Biết Tổng Và Hiệu: Gói Kẹo Của Mai & Rô-bốt",
+            "xp": 150,
+            "diff": "Vận Dụng",
+            "tool_type": "canvas_grid",
+            "is_geogebra": false,
+            "dr_stone_mission": "Bí mật chia kẹo công bằng: Mai và Mi có tổng cộng 25 cái kẹo. Phần của Mi nhiều hơn phần của Mai là 5 cái kẹo. Chú Rô-bốt thông minh hướng dẫn bé Trà cách vẽ sơ đồ để tìm ra số kẹo của mỗi bạn!",
+            "station1_van": "<div style='background:#fef3c7;border-left:4px solid #d97706;padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:0.9rem;'><strong>💡 NGUYÊN LÝ LƯỢNG GLENN DOMAN:</strong><br>Hiệu số chính là đoạn dôi ra. Nếu bớt đoạn dôi ra đó đi thì hai phần sẽ bằng nhau chằn chặn. Nếu thêm đoạn dôi ra vào thì cả hai sẽ cùng bằng phần lớn.</div>\n<strong>📌 2 Công Thức Vàng Bất Biến:</strong><br>\n• <strong>Cách 1 (Tìm Số Bé trước):</strong><br>\n  Số bé = (Tổng - Hiệu) : 2<br>\n  Số kẹo của Mai = (25 - 5) : 2 = 10 (cái).<br>\n• <strong>Cách 2 (Tìm Số Lớn trước):</strong><br>\n  Số lớn = (Tổng + Hiệu) : 2<br>\n  Số kẹo của Mi = (25 + 5) : 2 = 15 (cái).",
+            "station2_tu": "Vẽ sơ đồ đoạn thẳng 'Tổng và Hiệu' trên Canvas Studio:<br>1. Đoạn ngắn (Số bé - Mai): vẽ 1 đoạn thẳng.<br>2. Đoạn dài (Số lớn - Mi): vẽ đoạn bằng số bé rồi kéo dài thêm đoạn chấm chấm ghi '5 cái kẹo'.<br>3. Móc tổng cả hai đoạn ghi '25 cái kẹo'.<br>4. Dùng bút màu khoanh vào đoạn thừa ra để thấy rõ phép trừ (25 - 5)!",
+            "station3_tu": "1. Tại sao trong công thức tìm số bé, sau khi lấy (Tổng - Hiệu) ta lại phải chia cho 2?\n2. Nếu tổng tuổi của Bố và con là 45 tuổi, Bố hơn con 25 tuổi, con tính nhẩm xem con năm nay mấy tuổi?",
+            "key_concepts": [
+                  "tìm hai số biết tổng và hiệu",
+                  "số bé = (tổng - hiệu) : 2",
+                  "số lớn = (tổng + hiệu) : 2",
+                  "sơ đồ đoạn thẳng"
+            ],
+            "causality_anchors": [
+                  "sau khi bớt phần dôi ra",
+                  "hai đoạn bằng nhau",
+                  "nên chia đôi",
+                  "do đó"
+            ],
+            "metaphors": [
+                  "chiếc kéo cắt phần thừa",
+                  "gói kẹo sẻ chia",
+                  "hai thanh gỗ so le"
+            ],
+            "anchor": "SGK Toán 4 Tập 1 KNTT, tr.78–84"
+      },
+      {
+            "id": "toan4t1_q18",
+            "num": 18,
+            "chapter_id": "ch6",
+            "chapter_title": "Chủ đề 6: Đường Thẳng Vuông Góc & Song Song",
+            "lesson": "Bài 27 & 28",
+            "page": "tr.85–89",
+            "title": "Hai Đường Thẳng Vuông Góc & Cây Thước Ê-ke Vững Chãi",
+            "xp": 120,
+            "diff": "Nhận Biết",
+            "tool_type": "geogebra",
+            "is_geogebra": true,
+            "dr_stone_mission": "Bé Trà khám phá khung cửa sổ và góc bàn học: Dùng chiếc ê-ke kiểm tra xem hai mép bàn giao nhau có tạo thành một góc vuông chuẩn xác không!",
+            "station1_van": "<div style='background:#fef3c7;border-left:4px solid #d97706;padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:0.9rem;'><strong>💡 NGUYÊN LÝ LƯỢNG GLENN DOMAN:</strong><br>Vuông góc tạo ra lực chịu tải tối ưu nhất trong cơ học: Trọng lực kéo thẳng đứng xuống mặt đất vuông góc với sàn nhà giúp vạn vật đứng vững không bị sụp đổ.</div>\n<strong>📌 Khái niệm cốt lõi:</strong><br>\n• Khi hai đường thẳng cắt nhau tạo thành <strong>bốn góc vuông</strong> thì ta nói hai đường thẳng đó <strong>vuông góc với nhau</strong>.<br>\n• Kí hiệu hoặc kiểm tra bằng góc vuông của thước ê-ke.<br><br>\n<strong>📐 Cách vẽ đường thẳng vuông góc:</strong><br>Đặt một cạnh góc vuông của ê-ke trùng với đường thẳng đã cho, trượt ê-ke cho cạnh góc vuông kia đi qua điểm cần vẽ, vạch một đường thẳng theo cạnh đó.",
+            "station2_tu": "Sử dụng GeoGebra Applet hoặc Canvas Studio:<br>1. Vẽ đường thẳng nằm ngang AB.<br>2. Dùng công cụ ê-ke vẽ đường thẳng CD vuông góc với AB tại điểm O.<br>3. Ký hiệu ô vuông nhỏ ở góc cắt để xác nhận góc vuông 90°!",
+            "station3_tu": "1. Nếu một người thợ xây đặt cột nhà không vuông góc với mặt đất mà hơi nghiêng thì nguy hiểm gì sẽ xảy ra?\n2. Khi hai kim đồng hồ vuông góc với nhau (lúc 3 giờ), nếu kéo dài hai kim thành hai đường thẳng thì chúng tạo thành mấy góc vuông?",
+            "key_concepts": [
+                  "hai đường thẳng vuông góc",
+                  "ê-ke",
+                  "4 góc vuông",
+                  "thước đo góc vuông",
+                  "thợ xây dựng"
+            ],
+            "causality_anchors": [
+                  "cắt nhau tại góc 90 độ",
+                  "vì nghiêng sẽ đổ",
+                  "nhờ ê-ke",
+                  "do đó"
+            ],
+            "metaphors": [
+                  "cột nhà chống trời",
+                  "khung cửa sổ",
+                  "ngã tư đường phố"
+            ],
+            "anchor": "SGK Toán 4 Tập 1 KNTT, tr.85–89"
+      },
+      {
+            "id": "toan4t1_q19",
+            "num": 19,
+            "chapter_id": "ch6",
+            "chapter_title": "Chủ đề 6: Đường Thẳng Vuông Góc & Song Song",
+            "lesson": "Bài 29 & 30",
+            "page": "tr.90–94",
+            "title": "Hai Đường Thẳng Song Song & Đường Ray Xe Lửa Vĩnh Cửu",
+            "xp": 120,
+            "diff": "Thông Hiểu",
+            "tool_type": "geogebra",
+            "is_geogebra": true,
+            "dr_stone_mission": "Chuyến tàu hỏa Bắc - Nam chạy dọc đất nước: Bé Trà quan sát hai thanh ray sắt song song và các thanh tà vẹt gỗ vuông góc nâng đỡ đoàn tàu lướt êm ái!",
+            "station1_van": "<div style='background:#fef3c7;border-left:4px solid #d97706;padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:0.9rem;'><strong>💡 NGUYÊN LÝ LƯỢNG GLENN DOMAN:</strong><br>Song song là sự bảo toàn khoảng cách tuyệt đối: Dù kéo dài về hai phía đến tận chân trời, khoảng cách giữa chúng không bao giờ thay đổi và chúng không bao giờ gặp nhau.</div>\n<strong>📌 Khái niệm cốt lõi:</strong><br>\n• <strong>Hai đường thẳng song song:</strong> Là hai đường thẳng không bao giờ cắt nhau dù kéo dài mãi mãi.<br>\n• Hai mép đối diện của trang sách, hai mép bảng lớp học, hai thanh ray tàu hỏa là hình ảnh của hai đường thẳng song song.<br><br>\n<strong>🚂 Định lý hình học thú vị:</strong><br>Hai đường thẳng cùng vuông góc với một đường thẳng thứ ba thì chúng song song với nhau!",
+            "station2_tu": "Thao tác trên GeoGebra Applet hoặc Canvas:<br>1. Vẽ đường thẳng m song song với đường thẳng n.<br>2. Vẽ các thanh ngang tà vẹt vuông góc nối giữa hai đường ray.<br>3. Kiểm tra xem khoảng cách giữa hai thanh ray có bằng nhau ở mọi vị trí không!",
+            "station3_tu": "1. Vì sao hai thanh ray tàu hỏa cần phải song song tuyệt đối? Nếu chúng bị chụm lại hoặc loe ra thì điều gì sẽ xảy ra?\n2. Trong phòng học hoặc ngôi nhà của con, con tìm thấy những cặp đường thẳng song song nào?",
+            "key_concepts": [
+                  "hai đường thẳng song song",
+                  "không bao giờ cắt nhau",
+                  "bảo toàn khoảng cách",
+                  "đường ray tàu hỏa"
+            ],
+            "causality_anchors": [
+                  "vì cùng vuông góc với",
+                  "kéo dài mãi không gặp",
+                  "nên song song",
+                  "nếu không sẽ trật bánh"
+            ],
+            "metaphors": [
+                  "đường ray xe lửa",
+                  "hai mép dòng sông",
+                  "song thưa cửa sổ"
+            ],
+            "anchor": "SGK Toán 4 Tập 1 KNTT, tr.90–94"
+      },
+      {
+            "id": "toan4t1_q20",
+            "num": 20,
+            "chapter_id": "ch6",
+            "chapter_title": "Chủ đề 6 & 7: Hình Học & Ôn Tập Học Kì 1",
+            "lesson": "Bài 31–37",
+            "page": "tr.95–118",
+            "title": "Hình Bình Hành, Hình Thoi & Đại Hội Ôn Tập Học Kì 1",
+            "xp": 150,
+            "diff": "Vận Dụng",
+            "tool_type": "geogebra",
+            "is_geogebra": true,
+            "dr_stone_mission": "Đại hội tổng kết Học Kì 1: Bé Trà trang trí hoa văn thổ cẩm bằng các hình thoi và hình bình hành rực rỡ, chinh phục toàn bộ kho báu tri thức Toán 4 Tập 1 để nhận Huy Hiệu Master!",
+            "station1_van": "<div style='background:#fef3c7;border-left:4px solid #d97706;padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:0.9rem;'><strong>💡 NGUYÊN LÝ LƯỢNG GLENN DOMAN:</strong><br>Hình học là sự nhảy múa của các cạnh song song và góc: Kéo nghiêng hình chữ nhật ta được hình bình hành; kéo nghiêng hình vuông ta được hình thoi.</div>\n<strong>📌 2 Hình Hình Học Mới:</strong><br>\n• <strong>Hình bình hành:</strong> Có hai cặp cạnh đối diện song song và bằng nhau.<br>\n• <strong>Hình thoi:</strong> Có hai cặp cạnh đối diện song song và <strong>bốn cạnh bằng nhau</strong>.<br><br>\n<strong>🏆 4 Trụ Cột Ôn Tập Học Kì 1:</strong><br>\n1. Số và phép tính đến lớp triệu.<br>\n2. Đại lượng: Yến/tạ/tấn, dm²/m²/mm², Giây/thế kỉ.<br>\n3. Góc và đường vuông góc, song song.<br>\n4. Giải toán có lời văn (Tìm hai số biết tổng và hiệu).",
+            "station2_tu": "Vẽ 'Họa Tiết Thổ Cẩm Hoa Văn' trên GeoGebra hoặc Canvas Studio:<br>1. Vẽ một hình bình hành ABCD có AB song song với CD, AD song song với BC.<br>2. Vẽ một hình thoi MNPQ có 4 cạnh bằng nhau chằn chặn.<br>3. Tô màu sắc rực rỡ như chiếc khăn len ấm áp mùa đông!",
+            "station3_tu": "1. Hình thoi có điểm gì giống và điểm gì khác so với hình vuông và hình bình hành?\n2. Nhìn lại hành trình 20 Quests Toán 4 Tập 1, con thấy bài học nào thú vị và hữu ích nhất trong đời sống?",
+            "key_concepts": [
+                  "hình bình hành",
+                  "hình thoi",
+                  "4 cạnh bằng nhau",
+                  "hai cặp cạnh song song",
+                  "tổng kết học kì 1"
+            ],
+            "causality_anchors": [
+                  "kéo nghiêng",
+                  "đối diện song song",
+                  "bốn cạnh bằng nhau",
+                  "tổng kết lại"
+            ],
+            "metaphors": [
+                  "hoa văn thổ cẩm",
+                  "chiếc diều giấy bay cao",
+                  "viên kim cương lấp lánh"
+            ],
+            "anchor": "SGK Toán 4 Tập 1 KNTT, tr.95–118"
+      }
+]
+  },
+// ─── PHÂN HỆ LỚP 3: BÉ PHẠM BẢO TRÀ (THANH TRÀ) ──────────────────────
+  toan3: {
+    id: "toan3", grade: "lop3",
+    icon: "🌸", color: "#ec4899",
+    title: "Toán 3 — Vườn Ươm Số Học",
+    desc: "Bảng Nhân Chia, Hình Học Trực Quan & Giải Toán Có Lời Văn (Bé Trà)",
+    quests: [
+      {
+        id: "toan3_q1",
+        num: 1,
+        lesson: "Bài 1",
+        page: "tr.5–8",
+        title: "Bí Mật Bảng Nhân 6 & Vườn Hoa Của Trà",
+        xp: 100,
+        diff: "Nhận Biết",
+        tool_type: "canvas_grid",
+        dr_stone_mission: "Cùng em Trà gieo hạt hoa trong khu vườn kỳ diệu: mỗi luống có 6 bông hoa, 4 luống có bao nhiêu bông hoa?",
+        station1_van: "<strong>🌸 Bản chất số học:</strong><br>Phép nhân chính là phép cộng các số hạng bằng nhau: 6 x 4 = 6 + 6 + 6 + 6 = 24.<br><br><strong>📌 Quy tắc cốt lõi:</strong><br>• Muốn tìm tích, con có thể đếm thêm 6 bước nhảy trên trục số.<br>• Khi đổi chỗ các thừa số, tích không thay đổi: 6 x 4 = 4 x 6 = 24.",
+        station2_tu: "Vẽ 4 luống hoa (mỗi luống 6 bông hoa xinh xắn) trên Bảng Vẽ Ô Ly!",
+        station3_tu: "Hãy giải thích cho Bố và anh Phong: vì sao 6 x 4 lại bằng 24 bông hoa?",
+        key_concepts: ["bảng nhân 6", "thừa số", "tích", "phép nhân"],
+        causality_anchors: ["vì", "nên", "bằng", "do đó"],
+        metaphors: ["luống hoa rực rỡ", "bước nhảy chú thỏ"],
+        anchor: "SGK Toán 3 Tập 1, tr.5"
+      },
+      {
+        id: "toan3_q2",
+        num: 2,
+        lesson: "Bài 2",
+        page: "tr.9–12",
+        title: "Chia Đều Bánh Ngọt & Phép Chia 6",
+        xp: 100,
+        diff: "Thông Hiểu",
+        tool_type: "canvas_grid",
+        dr_stone_mission: "Có 18 chiếc bánh quy thơm lừng, chia đều cho 6 bạn nhỏ. Mỗi bạn được mấy chiếc bánh?",
+        station1_van: "<strong>🌸 Bản chất phép chia:</strong><br>Chia là chia đều một số lượng thành các phần bằng nhau.<br>18 : 6 = 3 (chiếc bánh cho mỗi bạn).",
+        station2_tu: "Vẽ 6 đĩa bánh, mỗi đĩa có 3 chiếc bánh quy xinh xắn trên Canvas!",
+        station3_tu: "Con hãy kể cho Bố nghe câu chuyện chia bánh quy cho các bạn!",
+        key_concepts: ["phép chia", "số bị chia", "số chia", "thương"],
+        causality_anchors: ["vì", "nên", "chia đều"],
+        metaphors: ["đĩa bánh ngọt ngào"],
+        anchor: "SGK Toán 3 Tập 1, tr.9"
+      }
+    ]
+  },
+  tiengviet3: {
+    id: "tiengviet3", grade: "lop3",
+    icon: "📖", color: "#8b5cf6",
+    title: "Tiếng Việt 3 — Cảm Xúc & Kể Chuyện",
+    desc: "Nuôi Dưỡng Tâm Hồn, Luyện Từ Và Câu, Viết Đoạn Văn Sáng Tạo (Bé Trà)",
+    quests: [
+      {
+        id: "tv3_q1",
+        lesson: "Bài 1",
+        page: "tr.10–13",
+        title: "Bức Tranh Mùa Thu & Lòng Biết Ơn",
+        xp: 100,
+        diff: "Thông Hiểu",
+        tool_type: "canvas_grid",
+        dr_stone_mission: "Bé Trà quan sát giọt sương trên lá và vẽ nên bức tranh mùa thu yêu thương dành tặng Bố Mẹ!",
+        station1_van: "<strong>📖 Cảm xúc văn học:</strong><br>Mùa thu mang theo làn gió mát, hương ổi chín và bầu trời trong xanh. Đọc chậm từng câu thơ để cảm nhận tình yêu gia đình.",
+        station2_tu: "Dùng Bảng Vẽ Canvas để phác họa bức tranh chiếc lá vàng và bầu trời mùa thu!",
+        station3_tu: "Bé Trà hãy nói 3 điều con cảm thấy biết ơn Bố Mẹ và gia đình hôm nay!",
+        key_concepts: ["biết ơn", "mùa thu", "tình cảm gia đình"],
+        causality_anchors: ["vì", "nên", "yêu thương"],
+        metaphors: ["chiếc lá vàng", "giọt sương mai"],
+        anchor: "SGK Tiếng Việt 3 Tập 1"
+      }
+    ]
+  },
+  tuduy3: {
+    id: "tuduy3", grade: "lop3",
+    icon: "🌱", color: "#10b981",
+    title: "Tư Duy Sáng Tạo 3 Gốc — Bé Trà",
+    desc: "Rèn Luyện Đạo Đức - Trí Tuệ - Nghị Lực Qua Trải Nghiệm Thực Tế",
+    quests: [
+      {
+        id: "tuduy3_q1",
+        lesson: "Bài 1",
+        page: "Thực hành",
+        title: "Quản Lý Cảm Xúc Giận Dữ — Cơn Bão & Bình Yên",
+        xp: 120,
+        diff: "Vận Dụng",
+        tool_type: "canvas_grid",
+        dr_stone_mission: "Khi gặp điều không như ý, làm sao để biến cơn giận dữ thành nụ cười bình yên?",
+        station1_van: "<strong>🌱 Bí quyết 3 bước làm dịu cơn giận:</strong><br>1. Dừng lại, hít vào một hơi thật sâu.<br>2. Thở ra từ từ và mỉm cười.<br>3. Nói lời bình tĩnh thể hiện mong muốn của mình.",
+        station2_tu: "Vẽ sơ đồ 'Bình Nước Cảm Xúc' trên Canvas: khi đục ngầu giận dữ và khi lắng trong bình an!",
+        station3_tu: "Bé Trà hãy kể lại một lần con đã mỉm cười thay vì giận dỗi!",
+        key_concepts: ["bình tĩnh", "hít thở sâu", "mỉm cười", "3 gốc"],
+        causality_anchors: ["khi", "thì", "vì vậy"],
+        metaphors: ["cơn bão tan", "mặt hồ phẳng lặng"],
+        anchor: "Giáo Dục 3 Gốc Rễ Gia Đình"
+      }
+    ]
+  },
+
   // ─── TOÁN 7 TẬP 1 ────────────────────────────────────────
   toan7t1: {
     id: "toan7t1", grade: "lop7",
@@ -1807,7 +2740,7 @@ const COURSES_DB = {
             "dr_stone_mission": "Đặt đường ray xe lửa hơi nước 'Khỉ đột hơi': Hai thanh ray song song vĩnh cửu không bao giờ cắt nhau nhờ góc so le trong bằng nhau!",
             "station1_van": "<div style='background:#fef3c7;border-left:4px solid #d97706;padding:12px 16px;border-radius:6px;margin-bottom:14px;font-size:0.9rem;'><strong>💡 NGUYÊN LÝ LƯỢNG GLENN DOMAN:</strong><br>Đường song song là sự bảo toàn phương hướng trong không gian phẳng: cát tuyến cắt qua tạo nên các cặp góc so le bằng nhau tuyệt đối.</div>\n<strong>📌 Góc so le trong & Đồng vị:</strong><br>\nKhi đường thẳng c cắt hai đường thẳng a và b tại A và B:<br>\n• <strong>Dấu hiệu nhận biết:</strong> Nếu trong các góc tạo thành có MỘT cặp góc so le trong bằng nhau (hoặc một cặp góc đồng vị bằng nhau) thì a và b SONG SONG với nhau (a // b).<br>\n• Khi đó: Cặp góc so le trong còn lại cũng bằng nhau; tất cả các cặp góc đồng vị đều bằng nhau; hai góc trong cùng phía bù nhau (tổng = 180°).<br><br>\n<strong>🏠 Khung mái nhà của người thợ (tr.46):</strong><br>\nĐể kiểm tra các thanh ngang mái nhà có song song không, người thợ chỉ cần kiểm tra xem chúng có cùng vuông góc với một thanh dọc hay không! (Định lí: Hai đường thẳng phân biệt cùng vuông góc với đường thẳng thứ ba thì song song).",
             "station2_tu": "Vẽ hình hai đường thẳng song song bị cắt bởi cát tuyến c trên Canvas:<br>\n• Đánh số các góc A₁, A₂, A₃, A₄ và B₁, B₂, B₃, B₄.<br>\n• Dùng màu xanh lá tô cặp góc so le trong bằng nhau (A₁ = B₃ = 60°).<br>\n• Dùng màu xanh dương tô cặp góc đồng vị bằng nhau (A₁ = B₁ = 60°).<br>\n• Minh họa thước êke vẽ đường thẳng song song.<br><br><em>💡 <strong>Mẹo dùng Canvas:</strong> Bật nút '🔲 Lưới' để lấy ô ly chuẩn, chọn công cụ '📏 Đoạn thẳng' kẻ các cạnh thẳng thớm và đổi màu nét vẽ để làm nổi bật giả thiết!</em>",
-            "station3_tu": "1. Nếu một đường thẳng cắt hai đường thẳng mà tạo ra một cặp góc so le trong bằng nhau, tại sao hai đường thẳng đó bắt buộc phải song song?\n2. Trong đời sống, con nhìn thấy những đường thẳng song song ở đâu xung quanh ngôi nhà của mình?",
+            "station3_tu": "1. Nếu một đường thẳng cắt hai đường thẳng mà tạo ra một cặp góc so le trong bằng nhau, tại sao hai đường thẳng đó cần phải song song?\n2. Trong đời sống, con nhìn thấy những đường thẳng song song ở đâu xung quanh ngôi nhà của mình?",
             "key_concepts": [
                   "trong cùng phía",
                   "song song",
@@ -3618,6 +4551,13 @@ Bài học về đọc hiểu: Nhận biết bố cục, nhân vật chính, ch�
 
 // Sidebar config
 const SIDEBAR_CONFIG = {
+  lop4: [
+    { id: "toan4t1",      icon: "📐", label: "Toán 4 Tập 1",        color: "#ec4899" },
+    { id: "tiengviet4t1", icon: "📖", label: "Tiếng Việt 4 T1",     color: "#8b5cf6" },
+    { id: "tienganh4t1",  icon: "🇬🇧", label: "Tiếng Anh 4 T1",      color: "#3b82f6" },
+    { id: "lichdia4",     icon: "🌍", label: "Lịch Sử & Địa Lí 4",  color: "#f59e0b" },
+    { id: "khoahoc4",     icon: "🔬", label: "Khoa Học 4",          color: "#10b981" }
+  ],
   lop7: [
     { id: "toan7t1",  icon: "📐", label: "Toán 7 Tập 1",    color: "#3b82f6" },
     { id: "lichdia7", icon: "🌍", label: "Địa Lí 7",         color: "#f59e0b" },
@@ -3638,6 +4578,364 @@ const SIDEBAR_CONFIG = {
 let db = null;
 const DB_NAME = "TinhHoaTuHoc_v1";
 const DB_VER = 1;
+
+
+// ============================================================
+// MULTI-STUDENT DATABASE & DATA PERSISTENCE (GIAI ĐOẠN 4)
+// ============================================================
+
+const STUDENT_PROFILES = {
+  thanh_phong: {
+    id: "thanh_phong",
+    name: "Phạm Thanh Phong",
+    shortName: "Thanh Phong",
+    grade: "lop7",
+    icon: "🚀",
+    title: "Thanh Phong (Lớp 7)",
+    defaultCourse: "toan7t1"
+  },
+  thanh_tra: {
+    id: "thanh_tra",
+    name: "Phạm Bảo Trà (Thanh Trà)",
+    shortName: "Bảo Trà",
+    grade: "lop4",
+    icon: "🌸",
+    title: "Thanh Trà (Lớp 4)",
+    defaultCourse: "toan4t1"
+  }
+};
+
+function saveStudentState() {
+  const sId = appState.currentStudentId || "thanh_phong";
+  const stateData = {
+    totalXP: appState.totalXP || 0,
+    streak: appState.streak || 0,
+    questScores: appState.questScores || {},
+    unlockedQuests: appState.unlockedQuests || {},
+    questArtifacts: appState.questArtifacts || {},
+    questTranscripts: appState.questTranscripts || {},
+    updatedAt: new Date().toISOString()
+  };
+  localStorage.setItem("tinh_hoa_student_" + sId, JSON.stringify(stateData));
+}
+
+function loadStudentState(sId) {
+  const raw = localStorage.getItem("tinh_hoa_student_" + sId);
+  if (raw) {
+    try {
+      const data = JSON.parse(raw);
+      appState.totalXP = data.totalXP || 0;
+      appState.streak = data.streak || 1;
+      appState.questScores = data.questScores || {};
+      appState.unlockedQuests = data.unlockedQuests || {};
+      appState.questArtifacts = data.questArtifacts || {};
+      appState.questTranscripts = data.questTranscripts || {};
+    } catch(e) {
+      console.warn("Load student state error:", e);
+    }
+  } else {
+    // Defaults for new profile
+    appState.totalXP = (sId === "thanh_phong") ? 150 : 50;
+    appState.streak = 1;
+    appState.questScores = {};
+    appState.unlockedQuests = {};
+    appState.questArtifacts = {};
+    appState.questTranscripts = {};
+  }
+}
+
+function switchStudentProfile(sId) {
+  if (!STUDENT_PROFILES[sId]) return;
+
+  // 1. Save current student state
+  saveStudentState();
+
+  // 2. Switch identity
+  const profile = STUDENT_PROFILES[sId];
+  appState.currentStudentId = sId;
+  appState.studentName = profile.shortName;
+  appState.grade = profile.grade;
+
+  // 3. Load target student state
+  loadStudentState(sId);
+
+  // 4. Update UI Buttons & Selectors
+  const btnP = document.getElementById("btnProfilePhong");
+  const btnT = document.getElementById("btnProfileTra");
+  if (btnP && btnT) {
+    btnP.classList.toggle("btn-primary", sId === "thanh_phong");
+    btnP.style.background = (sId === "thanh_phong") ? "" : "transparent";
+    btnP.style.color = (sId === "thanh_phong") ? "" : "#64748b";
+
+    btnT.classList.toggle("btn-primary", sId === "thanh_tra");
+    btnT.style.background = (sId === "thanh_tra") ? "#ec4899" : "transparent";
+    btnT.style.color = (sId === "thanh_tra") ? "#ffffff" : "#64748b";
+  }
+
+  const gradeSel = document.getElementById("gradeSelector");
+  if (gradeSel) {
+    gradeSel.value = profile.grade;
+  }
+
+  // Update labels across UI
+  document.querySelectorAll(".active-student-lbl").forEach(el => {
+    el.textContent = profile.shortName;
+  });
+
+  const progName = document.getElementById("progressStudentName");
+  if (progName) progName.textContent = profile.shortName;
+
+  document.getElementById("xpDisplay").textContent = appState.totalXP;
+  document.getElementById("streakVal").textContent = appState.streak;
+
+  // 5. Select default course for the student
+  selectCourse(profile.defaultCourse);
+  renderSidebar();
+  renderQuestMap();
+  renderProgressTab();
+
+  showToast("🌟 Đã chuyển sang không gian tự học của " + profile.name + "!");
+}
+
+function exportDiscoveryJournal() {
+  const sId = appState.currentStudentId || "thanh_phong";
+  const profile = STUDENT_PROFILES[sId] || STUDENT_PROFILES.thanh_phong;
+  const nowStr = new Date().toLocaleDateString("vi-VN", { year: "numeric", month: "long", day: "numeric" });
+
+  const scores = appState.questScores || {};
+  const artifacts = appState.questArtifacts || {};
+  const transcripts = appState.questTranscripts || {};
+
+  let completedQuestsHtml = "";
+  let totalMastered = 0;
+
+  // Iterate all courses to find student's works
+  Object.keys(COURSES_DB).forEach(cKey => {
+    const course = COURSES_DB[cKey];
+    if (course.grade !== profile.grade && !cKey.includes("toan")) return;
+
+    course.quests.forEach(q => {
+      const score = scores[q.id];
+      const artifact = artifacts[q.id];
+      const transcript = transcripts[q.id];
+
+      if (score || artifact || transcript) {
+        totalMastered++;
+        let imgHtml = "";
+        if (artifact && artifact.dataUrl) {
+          imgHtml = '<div style="margin:12px 0;text-align:center;">' +
+            '<img src="' + artifact.dataUrl + '" style="max-width:100%;max-height:360px;border:2px solid #000;border-radius:8px;box-shadow:3px 3px 0 #000;" alt="Tác phẩm ' + q.title + '">' +
+            '<div style="font-size:0.75rem;color:#64748b;margin-top:4px;">Hình ảnh chế tác (' + (artifact.tool || 'khám phá').toUpperCase() + ')</div>' +
+          '</div>';
+        }
+
+        completedQuestsHtml += '<div style="background:#fff;border:2px solid #000;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:4px 4px 0 #000;">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px dashed #cbd5e1;padding-bottom:10px;margin-bottom:12px;">' +
+            '<div>' +
+              '<span style="background:#000;color:#fff;padding:2px 8px;border-radius:4px;font-size:0.75rem;font-weight:900;">' + course.title + '</span>' +
+              '<h3 style="margin:6px 0 0 0;font-size:1.15rem;font-weight:900;">' + q.lesson + ' — ' + q.title + '</h3>' +
+            '</div>' +
+            '<div style="text-align:right;">' +
+              '<span style="background:#ecfdf5;color:#065f46;border:1.5px solid #059669;padding:4px 10px;border-radius:20px;font-weight:900;font-size:0.85rem;">' +
+                (score ? '👑 ' + score + '/10 Điểm' : '✨ Đang Khám Phá') +
+              '</span>' +
+            '</div>' +
+          '</div>' +
+
+          (q.dr_stone_mission ? '<div style="background:#f0fdf4;border-left:4px solid #16a34a;padding:8px 12px;border-radius:4px;font-size:0.85rem;margin-bottom:12px;"><strong>🔬 Sứ mệnh khoa học:</strong> ' + q.dr_stone_mission + '</div>' : '') +
+
+          imgHtml +
+
+          '<div style="background:#f8fafc;border:1.5px solid #cbd5e1;border-radius:8px;padding:12px;margin-top:10px;">' +
+            '<div style="font-size:0.78rem;font-weight:800;color:#475569;margin-bottom:4px;">🎤 LỜI THUYẾT MINH CỦA CON (KỸ THUẬT FEYNMAN):</div>' +
+            '<div style="font-size:0.9rem;line-height:1.6;color:#1e293b;font-style:italic;">"' + (transcript || 'Con đã thao tác thành công trên mô hình và vượt qua thử thách!') + '"</div>' +
+          '</div>' +
+        '</div>';
+      }
+    });
+  });
+
+  if (!completedQuestsHtml) {
+    completedQuestsHtml = '<div style="text-align:center;padding:40px;background:#fff;border:2px dashed #cbd5e1;border-radius:12px;">' +
+      '<div style="font-size:2.5rem;margin-bottom:10px;">🌱</div>' +
+      '<div style="font-weight:800;font-size:1.1rem;">Hành trình kỳ diệu đang bắt đầu!</div>' +
+      '<p style="color:#64748b;">Hãy cùng con hoàn thành nhiệm vụ đầu tiên và bấm Chụp Lưu Tác Phẩm để ghi vào Sổ Tay này nhé!</p>' +
+    '</div>';
+  }
+
+  const fullHtml = '<!DOCTYPE html>\n<html lang="vi">\n<head>\n<meta charset="UTF-8">\n<title>Sổ Tay Khám Phá — ' + profile.name + '</title>\n' +
+    '<link rel="preconnect" href="https://fonts.googleapis.com">\n' +
+    '<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;900&family=Space+Mono:wght@700&display=swap" rel="stylesheet">\n' +
+    '<style>' +
+      'body{font-family:"Be Vietnam Pro",sans-serif;background:#fcf9f2;color:#1e293b;margin:0;padding:40px 20px;line-height:1.6;}' +
+      '.container{max-width:860px;margin:0 auto;}' +
+      '.header{background:#ffffff;border:3px solid #000;border-radius:16px;box-shadow:6px 6px 0 #000;padding:30px;margin-bottom:30px;text-align:center;}' +
+      '.badge-hero{display:inline-block;background:#000;color:#fff;padding:4px 14px;border-radius:9999px;font-size:0.8rem;font-weight:900;margin-bottom:12px;letter-spacing:1px;}' +
+      'h1{margin:0 0 10px 0;font-size:2rem;font-weight:900;}' +
+      '.print-btn{background:#16a34a;color:#fff;border:2px solid #000;box-shadow:3px 3px 0 #000;border-radius:8px;padding:10px 20px;font-size:0.9rem;font-weight:800;cursor:pointer;margin-top:14px;}' +
+      '@media print{.print-btn{display:none;}body{background:#fff;padding:0;}}' +
+    '</style>\n</head>\n<body>\n' +
+    '<div class="container">' +
+      '<div class="header">' +
+        '<span class="badge-hero">SỔ TAY KHÁM PHÁ VÀ TRƯỞNG THÀNH 3 GỐC RỄ</span>' +
+        '<h1>' + profile.icon + ' ' + profile.name + '</h1>' +
+        '<div style="font-size:0.95rem;color:#64748b;font-weight:600;">' + profile.title + ' • Xuất bản ngày ' + nowStr + '</div>' +
+        '<div style="display:flex;justify-content:center;gap:16px;margin-top:16px;flex-wrap:wrap;">' +
+          '<span style="background:#fef3c7;border:2px solid #000;padding:6px 14px;border-radius:8px;font-weight:800;">⚡ ' + appState.totalXP + ' XP Tích Lũy</span>' +
+          '<span style="background:#ecfdf5;border:2px solid #000;padding:6px 14px;border-radius:8px;font-weight:800;">🔥 Chuỗi ' + appState.streak + ' Ngày Tự Học</span>' +
+          '<span style="background:#eff6ff;border:2px solid #000;padding:6px 14px;border-radius:8px;font-weight:800;">🏆 ' + totalMastered + ' Tác Phẩm Đã Ghi Dấu</span>' +
+        '</div>' +
+        '<button class="print-btn" onclick="window.print()">🖨️ In Hoặc Lưu PDF Sổ Tay</button>' +
+      '</div>' +
+      completedQuestsHtml +
+      '<div style="text-align:center;font-size:0.8rem;color:#94a3b8;margin-top:30px;">Hệ Điều Hành Tự Học Tinh Hoa Studio v10 • Thiết lập bởi Bố Thanh Tuyển</div>' +
+    '</div>\n</body>\n</html>';
+
+  const blob = new Blob([fullHtml], { type: "text/html;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "So_Tay_Kham_Pha_" + sId + "_" + new Date().toISOString().slice(0, 10) + ".html";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  showToast("📖 Đã xuất thành công Sổ Tay Khám Phá HTML của " + profile.shortName + "!");
+}
+
+function exportLedgerJSON() {
+  saveStudentState();
+  const phongData = JSON.parse(localStorage.getItem("tinh_hoa_student_thanh_phong") || "{}");
+  const traData = JSON.parse(localStorage.getItem("tinh_hoa_student_thanh_tra") || "{}");
+
+  const ledgerData = {
+    system: {
+      name: "Tinh Hoa Tự Học Studio V10 — Sổ Cái Tiến Trình Học Tập",
+      version: "10.0.0",
+      parent: "Phạm Thanh Tuyển",
+      exportedAt: new Date().toISOString(),
+      connectedApp: "tinh_hoa_studio_v10.html",
+      totalStudents: 2
+    },
+    students: {
+      thanh_phong: {
+        id: "thanh_phong",
+        name: "Phạm Thanh Phong",
+        shortName: "Thanh Phong",
+        grade: "lop7",
+        totalXP: phongData.totalXP !== undefined ? phongData.totalXP : 1850,
+        streak: phongData.streak !== undefined ? phongData.streak : 7,
+        questScores: phongData.questScores || {},
+        unlockedQuests: phongData.unlockedQuests || {},
+        questArtifacts: phongData.questArtifacts || {},
+        questTranscripts: phongData.questTranscripts || {},
+        updatedAt: phongData.updatedAt || new Date().toISOString()
+      },
+      thanh_tra: {
+        id: "thanh_tra",
+        name: "Phạm Bảo Trà",
+        shortName: "Bảo Trà",
+        grade: "lop4",
+        totalXP: traData.totalXP !== undefined ? traData.totalXP : 650,
+        streak: traData.streak !== undefined ? traData.streak : 3,
+        questScores: traData.questScores || {},
+        unlockedQuests: traData.unlockedQuests || {},
+        questArtifacts: traData.questArtifacts || {},
+        questTranscripts: traData.questTranscripts || {},
+        updatedAt: traData.updatedAt || new Date().toISOString()
+      }
+    }
+  };
+
+  const blob = new Blob([JSON.stringify(ledgerData, null, 2)], { type: "application/json;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  const dateStr = new Date().toISOString().slice(0, 10);
+  a.download = "so_cai_tien_trinh_hoc_tap_phong_tra_" + dateStr + ".json";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  showToast("📥 Đã xuất thành công Sổ Cái Tiến Trình JSON cho cả hai con!");
+}
+
+function importLedgerJSON(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      let importedCount = 0;
+
+      if (data.students) {
+        // Multi-student ledger format
+        if (data.students.thanh_phong) {
+          const p = data.students.thanh_phong;
+          const normalized = {
+            totalXP: p.totalXP !== undefined ? p.totalXP : (p.total_xp || 0),
+            streak: p.streak !== undefined ? p.streak : (p.streak_days || 1),
+            questScores: p.questScores || p.quest_scores || {},
+            unlockedQuests: p.unlockedQuests || p.unlocked_quests || {},
+            questArtifacts: p.questArtifacts || p.quest_artifacts || {},
+            questTranscripts: p.questTranscripts || p.quest_transcripts || {},
+            updatedAt: p.updatedAt || p.last_activity || new Date().toISOString()
+          };
+          localStorage.setItem("tinh_hoa_student_thanh_phong", JSON.stringify(normalized));
+          importedCount++;
+        }
+        if (data.students.thanh_tra) {
+          const t = data.students.thanh_tra;
+          const normalized = {
+            totalXP: t.totalXP !== undefined ? t.totalXP : (t.total_xp || 0),
+            streak: t.streak !== undefined ? t.streak : (t.streak_days || 1),
+            questScores: t.questScores || t.quest_scores || {},
+            unlockedQuests: t.unlockedQuests || t.unlocked_quests || {},
+            questArtifacts: t.questArtifacts || t.quest_artifacts || {},
+            questTranscripts: t.questTranscripts || t.quest_transcripts || {},
+            updatedAt: t.updatedAt || t.last_activity || new Date().toISOString()
+          };
+          localStorage.setItem("tinh_hoa_student_thanh_tra", JSON.stringify(normalized));
+          importedCount++;
+        }
+      } else if (data.studentId || data.student_id || data.grade) {
+        // Single student backup format
+        const sId = data.studentId || data.student_id || (data.grade === "lop4" ? "thanh_tra" : "thanh_phong");
+        const normalized = {
+          totalXP: data.totalXP !== undefined ? data.totalXP : (data.total_xp || 0),
+          streak: data.streak !== undefined ? data.streak : (data.streak_days || 1),
+          questScores: data.questScores || data.quest_scores || {},
+          unlockedQuests: data.unlockedQuests || data.unlocked_quests || {},
+          questArtifacts: data.questArtifacts || data.quest_artifacts || {},
+          questTranscripts: data.questTranscripts || data.quest_transcripts || {},
+          updatedAt: data.updatedAt || new Date().toISOString()
+        };
+        localStorage.setItem("tinh_hoa_student_" + sId, JSON.stringify(normalized));
+        importedCount++;
+      } else {
+        throw new Error("Tệp không đúng định dạng Sổ Cái Tiến Trình JSON");
+      }
+
+      loadStudentState(appState.currentStudentId || "thanh_phong");
+      const xpEl = document.getElementById("xpDisplay");
+      if (xpEl) xpEl.textContent = appState.totalXP;
+      const strEl = document.getElementById("streakVal");
+      if (strEl) strEl.textContent = appState.streak;
+
+      renderSidebar();
+      renderQuestMap();
+      renderProgressTab();
+      showToast("📤 Nạp Sổ Cái JSON thành công (" + importedCount + " học sinh)!");
+    } catch(err) {
+      alert("❌ Lỗi nạp tệp Sổ Cái JSON: " + err.message);
+    }
+    event.target.value = "";
+  };
+  reader.readAsText(file);
+}
+
+// Aliases for compatibility
+const exportStudentDataJSON = exportLedgerJSON;
+const importStudentDataJSON = importLedgerJSON;
+
 
 function initDB() {
   return new Promise((resolve, reject) => {
@@ -3670,42 +4968,57 @@ function initDB() {
 
 function dbGet(store, key) {
   return new Promise((res, rej) => {
-    const tx = db.transaction(store, "readonly");
-    const req = tx.objectStore(store).get(key);
-    req.onsuccess = () => res(req.result);
-    req.onerror = () => rej(req.error);
+    if (!db) { res(null); return; }
+    try {
+      const tx = db.transaction(store, "readonly");
+      const req = tx.objectStore(store).get(key);
+      req.onsuccess = () => res(req.result);
+      req.onerror = () => rej(req.error);
+    } catch(e) { res(null); }
   });
 }
 function dbPut(store, val) {
   return new Promise((res, rej) => {
-    const tx = db.transaction(store, "readwrite");
-    const req = tx.objectStore(store).put(val);
-    req.onsuccess = () => res(req.result);
-    req.onerror = () => rej(req.error);
+    if (!db) { res(); return; }
+    try {
+      const tx = db.transaction(store, "readwrite");
+      const req = tx.objectStore(store).put(val);
+      req.onsuccess = () => res(req.result);
+      req.onerror = () => rej(req.error);
+    } catch(e) { res(); }
   });
 }
 function dbGetAll(store) {
   return new Promise((res, rej) => {
-    const tx = db.transaction(store, "readonly");
-    const req = tx.objectStore(store).getAll();
-    req.onsuccess = () => res(req.result);
-    req.onerror = () => rej(req.error);
+    if (!db) { res([]); return; }
+    try {
+      const tx = db.transaction(store, "readonly");
+      const req = tx.objectStore(store).getAll();
+      req.onsuccess = () => res(req.result);
+      req.onerror = () => rej(req.error);
+    } catch(e) { res([]); }
   });
 }
 function dbDelete(store, key) {
   return new Promise((res, rej) => {
-    const tx = db.transaction(store, "readwrite");
-    const req = tx.objectStore(store).delete(key);
-    req.onsuccess = () => res();
-    req.onerror = () => rej(req.error);
+    if (!db) { res(); return; }
+    try {
+      const tx = db.transaction(store, "readwrite");
+      const req = tx.objectStore(store).delete(key);
+      req.onsuccess = () => res();
+      req.onerror = () => rej(req.error);
+    } catch(e) { res(); }
   });
 }
 async function dbClear(store) {
   return new Promise((res, rej) => {
-    const tx = db.transaction(store, "readwrite");
-    const req = tx.objectStore(store).clear();
-    req.onsuccess = () => res();
-    req.onerror = () => rej(req.error);
+    if (!db) { res(); return; }
+    try {
+      const tx = db.transaction(store, "readwrite");
+      const req = tx.objectStore(store).clear();
+      req.onsuccess = () => res();
+      req.onerror = () => rej(req.error);
+    } catch(e) { res(); }
   });
 }
 
@@ -4289,6 +5602,107 @@ const MICRO_CHALLENGES = {
     targetVal: null,
     prompt: "Thử thách Senku: Dựng tam giác ABC và kiểm tra các cạnh tương ứng bằng nhau theo trường hợp cạnh-cạnh-cạnh (c.c.c)!",
     guide: "Mẹo: Dùng công cụ đa giác (Polygon) trên GeoGebra."
+  },
+  // ─── THỬ THÁCH VI MÔ TOÁN 4 TẬP 1 (BÉ PHẠM BẢO TRÀ) ──────────────────
+  "toan4t1_q1": {
+    targetVal: 42530,
+    prompt: "Thử thách Bé Trà: Phân tích số dân xã 42.530 vào Bảng Hàng & Lớp (hoặc gõ số 42530 vào ô kiểm tra)!",
+    guide: "Mẹo: 4 chục nghìn, 2 nghìn, 5 trăm, 3 chục, 0 đơn vị."
+  },
+  "toan4t1_q2": {
+    targetVal: 43500,
+    prompt: "Thử thách Bé Trà: Tính tổng số sách thư viện nhập kho: 25.000 + 18.500 = ? cuốn sách!",
+    guide: "Mẹo: Đặt tính thẳng cột từ hàng đơn vị sang trái, có nhớ 1 sang hàng chục nghìn."
+  },
+  "toan4t1_q3": {
+    targetVal: 24,
+    prompt: "Thử thách Bé Trà: Tìm số nhà chẵn nằm giữa hai số nhà 22 và 26 trên con phố kỳ diệu!",
+    guide: "Mẹo: Số chẵn có chữ số tận cùng là 0, 2, 4, 6, 8."
+  },
+  "toan4t1_q4": {
+    targetVal: 7,
+    prompt: "Thử thách Bé Trà: Tính giá trị biểu thức thuyền giấy '2 + a' khi Mai gấp được a = 5 cái thuyền!",
+    guide: "Mẹo: Thay a = 5 vào biểu thức: 2 + 5 = 7 cái thuyền."
+  },
+  "toan4t1_q5": {
+    targetVal: 210,
+    prompt: "Thử thách Bé Trà: Tính tổng số cây xanh cả 3 đội trồng được (Đội 1: 60, Đội 2: 80, Đội 3: 70 cây)!",
+    guide: "Mẹo: 60 + 80 + 70 = 210 cây xanh."
+  },
+  "toan4t1_q6": {
+    targetVal: 90,
+    prompt: "Thử thách Bé Trà: Xoay hoặc nhập số đo độ của Góc Vuông (khớp với góc chiếc thước ê-ke)!",
+    guide: "Mẹo: Góc vuông có số đo chính xác bằng 90 độ."
+  },
+  "toan4t1_q7": {
+    targetVal: 180,
+    prompt: "Thử thách Bé Trà: Kim đồng hồ lúc 6 giờ đúng tạo thành Góc Bẹt có số đo bằng bao nhiêu độ?",
+    guide: "Mẹo: Góc bẹt bằng 2 góc vuông: 90 x 2 = 180 độ."
+  },
+  "toan4t1_q8": {
+    targetVal: 1000000,
+    prompt: "Thử thách Bé Trà: Mở cánh cổng Lớp Triệu bằng cách nhập con số 1.000.000 ngôi sao!",
+    guide: "Mẹo: Số gồm chữ số 1 và 6 chữ số 0 (một triệu)."
+  },
+  "toan4t1_q9": {
+    targetVal: 150000000,
+    prompt: "Thử thách Bé Trà: Làm tròn khoảng cách Trái Đất - Mặt Trời (149.597.876 km) đến hàng triệu!",
+    guide: "Mẹo: Chữ số hàng trăm nghìn là 5 nên làm tròn lên 150.000.000 km."
+  },
+  "toan4t1_q10": {
+    targetVal: 0,
+    prompt: "Thử thách Bé Trà: Điểm gốc của dãy số tự nhiên bắt đầu từ số nào?",
+    guide: "Mẹo: Số tự nhiên bé nhất là số 0."
+  },
+  "toan4t1_q11": {
+    targetVal: 9,
+    prompt: "Thử thách Bé Trà: Con số trong phạm vi lớp triệu (đến hàng trăm triệu) có tối đa mấy chữ số?",
+    guide: "Mẹo: Lớp đơn vị (3) + Lớp nghìn (3) + Lớp triệu (3) = 9 chữ số."
+  },
+  "toan4t1_q12": {
+    targetVal: 190000,
+    prompt: "Thử thách Bé Trà: Đổi khối lượng 190 tấn của Chú Cá Voi Xanh khổng lồ ra đơn vị ki-lô-gam (kg)!",
+    guide: "Mẹo: 1 tấn = 1.000 kg nên 190 tấn = 190.000 kg."
+  },
+  "toan4t1_q13": {
+    targetVal: 100,
+    prompt: "Thử thách Bé Trà: 1 đề-xi-mét vuông (dm²) bằng bao nhiêu xăng-ti-mét vuông (cm²)?",
+    guide: "Mẹo: 10 x 10 = 100 ô vuông 1 cm²."
+  },
+  "toan4t1_q14": {
+    targetVal: 11,
+    prompt: "Thử thách Bé Trà: Năm 1010 Vua Lý Thái Tổ dời đô về Thăng Long thuộc thế kỉ thứ mấy (nhập số)?",
+    guide: "Mẹo: Từ năm 1001 đến năm 1100 là Thế kỉ 11 (XI)."
+  },
+  "toan4t1_q15": {
+    targetVal: 721795,
+    prompt: "Thử thách Bé Trà: Tính tổng chi phí xây cầu: 452.380 + 269.415 = ? đồng!",
+    guide: "Mẹo: Cộng thẳng hàng từ phải sang trái: 721.795 đồng."
+  },
+  "toan4t1_q16": {
+    targetVal: 35000,
+    prompt: "Thử thách Bé Trà: Tính nhanh tổng tiền mua nước cam 20.000đ và bánh 15.000đ!",
+    guide: "Mẹo: Áp dụng tính chất giao hoán: 20.000 + 15.000 = 35.000 đồng."
+  },
+  "toan4t1_q17": {
+    targetVal: 10,
+    prompt: "Thử thách Bé Trà: Chia 25 cái kẹo, Mi hơn Mai 5 cái. Tìm số kẹo của Mai (số bé)?",
+    guide: "Mẹo: Số bé = (Tổng - Hiệu) : 2 = (25 - 5) : 2 = 10 cái kẹo."
+  },
+  "toan4t1_q18": {
+    targetVal: 4,
+    prompt: "Thử thách Bé Trà: Hai đường thẳng vuông góc cắt nhau tạo thành bao nhiêu góc vuông?",
+    guide: "Mẹo: Tạo thành 4 góc vuông 90 độ xung quanh điểm cắt."
+  },
+  "toan4t1_q19": {
+    targetVal: 0,
+    prompt: "Thử thách Bé Trà: Hai đường thẳng song song (như hai thanh ray xe lửa) cắt nhau tại mấy điểm?",
+    guide: "Mẹo: Hai đường thẳng song song không bao giờ cắt nhau (0 điểm chung)."
+  },
+  "toan4t1_q20": {
+    targetVal: 4,
+    prompt: "Thử thách Bé Trà: Hình thoi trong họa tiết thổ cẩm có bao nhiêu cạnh bằng nhau?",
+    guide: "Mẹo: Hình thoi có 4 cạnh dài bằng nhau chằn chặn."
   }
 };
 
@@ -4347,23 +5761,177 @@ function checkMicroChallenge(currentVal) {
 
   const pillBox = document.getElementById("challengeStatusPill");
   const cardBox = document.getElementById("microChallengeBox");
+  const hintBox = document.getElementById("challengeFeedbackHint");
 
   const diff = Math.abs(currentVal - challenge.targetVal);
   if (diff < 0.05) {
-    if (pillBox && !pillBox.classList.contains("success")) {
+    if (pillBox) {
       pillBox.className = "challenge-status-pill success";
       pillBox.innerHTML = "✨ THẤU SUỐT 100%! TỌA ĐỘ CHÍNH XÁC!";
-      if (cardBox) cardBox.classList.add("completed");
-      showToast("🎉 Xuất sắc! Con đã đưa điểm A đến chính xác tọa độ mục tiêu!");
     }
+    if (cardBox) cardBox.classList.add("completed");
+    if (hintBox) {
+      hintBox.style.color = "#16a34a";
+      hintBox.textContent = "🎉 Chính xác tuyệt đối (" + currentVal.toLocaleString("vi-VN") + ")!";
+    }
+    if (typeof launchFireworks === "function") launchFireworks();
+    if (typeof playVictorySound === "function") playVictorySound();
+    if (typeof addStudentXP === "function") addStudentXP(25);
+    showToast("🎉 Xuất sắc! Con đã hoàn thành Thử Thách Vi Mô!");
   } else {
     if (pillBox && pillBox.classList.contains("success")) {
       pillBox.className = "challenge-status-pill pending";
       pillBox.innerHTML = "⏳ Đang tiến hành...";
       if (cardBox) cardBox.classList.remove("completed");
     }
+    if (hintBox) {
+      hintBox.style.color = "#e11d48";
+      hintBox.textContent = "Chưa chính xác (kết quả đang là " + (currentVal ? currentVal.toLocaleString("vi-VN") : "0") + "). Con thử lại nhé!";
+    }
   }
 }
+
+// ============================================================
+// GIAI ĐOẠN 3: ĐỘNG CƠ BẢNG HÀNG & LỚP VÀ ÂM THANH KHEN THƯỞNG
+// ============================================================
+
+function playVictorySound() {
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+    const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6 (Major arpeggio)
+    notes.forEach((freq, idx) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.08);
+      gain.gain.setValueAtTime(0.15, ctx.currentTime + idx * 0.08);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.08 + 0.35);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(ctx.currentTime + idx * 0.08);
+      osc.stop(ctx.currentTime + idx * 0.08 + 0.4);
+    });
+  } catch (e) {
+    // AudioContext blocked or not supported, ignore silently
+  }
+}
+
+function updatePlaceValueChart(valStr) {
+  const digitsOnly = (valStr || "").replace(/\D/g, "");
+  const num = parseInt(digitsOnly, 10);
+
+  const cells = ["pv_hm", "pv_tm", "pv_m", "pv_hth", "pv_tth", "pv_th", "pv_h", "pv_t", "pv_u"];
+  cells.forEach(cId => {
+    const el = document.getElementById(cId);
+    if (el) el.textContent = "-";
+  });
+
+  const wordsEl = document.getElementById("pvWordsOutput");
+  const expEl = document.getElementById("pvExpandedOutput");
+  const parEl = document.getElementById("pvParityOutput");
+
+  if (!digitsOnly || isNaN(num)) {
+    if (wordsEl) wordsEl.textContent = "Chưa nhập số";
+    if (expEl) expEl.textContent = "-";
+    if (parEl) parEl.textContent = "-";
+    return;
+  }
+
+  const len = digitsOnly.length;
+  for (let i = 0; i < Math.min(len, 9); i++) {
+    const digit = digitsOnly[len - 1 - i];
+    const cellId = cells[8 - i];
+    const el = document.getElementById(cellId);
+    if (el) el.textContent = digit;
+  }
+
+  const powers = [100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1];
+  const parts = [];
+  for (let i = 0; i < Math.min(len, 9); i++) {
+    const d = parseInt(digitsOnly[i], 10);
+    const p = powers[9 - len + i];
+    if (d > 0) parts.push((d * p).toLocaleString("vi-VN"));
+  }
+  if (expEl) expEl.textContent = parts.length > 0 ? parts.join(" + ") : "0";
+
+  const lastDigit = parseInt(digitsOnly[len - 1], 10);
+  const isEven = [0, 2, 4, 6, 8].includes(lastDigit);
+  if (parEl) {
+    parEl.innerHTML = isEven
+      ? `<span style="color:#10b981;">🟢 Số Chẵn (tận cùng là ${lastDigit}, chia hết cho 2)</span>`
+      : `<span style="color:#ec4899;">🌸 Số Lẻ (tận cùng là ${lastDigit}, dư 1 khi ghép đôi)</span>`;
+  }
+
+  if (wordsEl) {
+    wordsEl.textContent = readVietnameseNumber(num);
+  }
+}
+
+function setPlaceValueSample(num) {
+  const input = document.getElementById("inputPlaceValueNum");
+  if (input) {
+    input.value = num;
+    updatePlaceValueChart("" + num);
+  }
+}
+
+function applyPlaceValueToChallenge() {
+  const input = document.getElementById("inputPlaceValueNum");
+  if (input && input.value) {
+    const clean = input.value.replace(/\D/g, "");
+    if (clean) {
+      const num = parseFloat(clean);
+      const chInput = document.getElementById("inputChallengeVal");
+      if (chInput) chInput.value = num;
+      checkMicroChallenge(num);
+    }
+  }
+}
+
+function readVietnameseNumber(n) {
+  if (n === 0) return "Không";
+  const units = ["", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
+  const scales = ["", "nghìn", "triệu", "tỷ"];
+
+  let str = "";
+  let scaleIdx = 0;
+  let temp = n;
+
+  while (temp > 0) {
+    const chunk = temp % 1000;
+    if (chunk > 0) {
+      const h = Math.floor(chunk / 100);
+      const t = Math.floor((chunk % 100) / 10);
+      const u = chunk % 10;
+      let chunkStr = "";
+
+      if (h > 0 || temp >= 1000) chunkStr += units[h] + " trăm ";
+      if (t > 1) {
+        chunkStr += units[t] + " mươi ";
+        if (u === 1) chunkStr += "mốt ";
+        else if (u === 5) chunkStr += "lăm ";
+        else if (u > 0) chunkStr += units[u] + " ";
+      } else if (t === 1) {
+        chunkStr += "mười ";
+        if (u === 5) chunkStr += "lăm ";
+        else if (u > 0) chunkStr += units[u] + " ";
+      } else if (t === 0 && u > 0) {
+        if (h > 0 || temp >= 1000) chunkStr += "linh ";
+        chunkStr += units[u] + " ";
+      }
+      chunkStr = chunkStr.trim();
+      if (scales[scaleIdx]) chunkStr += " " + scales[scaleIdx];
+      str = chunkStr + (str ? " " + str : "");
+    }
+    temp = Math.floor(temp / 1000);
+    scaleIdx++;
+  }
+  str = str.trim();
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 
 function saveQuestSnapshot() {
   const currentQuest = COURSES_DB[appState.currentCourseId]?.quests.find(x => x.id === appState.currentQuestId);
@@ -5194,6 +6762,8 @@ async function submitQuest() {
   const course = COURSES_DB[appState.currentCourseId];
   const q = course.quests.find(x => x.id === appState.currentQuestId);
   const text = document.getElementById("voiceText").value.trim();
+  if (!appState.questTranscripts) appState.questTranscripts = {};
+  appState.questTranscripts[q.id] = text;
   const textLower = text.toLowerCase();
   // C1: Concepts (2.5)
   let c1Matched = 0;
@@ -5235,6 +6805,7 @@ async function submitQuest() {
     badge.textContent = `🌟 ĐÃ GHI NHẬN TIẾN TRÌNH KHÁM PHÁ! (${total}/10)`;
   }
   await updateStreak();
+  if (typeof saveStudentState === "function") saveStudentState();
 }
 
 function updateRubricUI(c1, c2, c3, c4, total) {
